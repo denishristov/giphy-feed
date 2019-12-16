@@ -5,7 +5,13 @@ export interface GifMetadata {
   images: {
     original: {
       url: string;
-      height: number;
+      height: string;
+      width: string;
+    };
+    fixed_height_small_still: {
+      url: string;
+      height: string;
+      width: string;
     };
   };
 }
