@@ -29,7 +29,7 @@ interface GiphySearchResponse {
 }
 
 const baseURL = "https://api.giphy.com/v1/gifs/search";
-const apiKey = "hahaha";
+const apiKey = process.env.REACT_APP_GIPHY_API_KEY;
 
 const config = {
   apiKey,
