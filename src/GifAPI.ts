@@ -8,7 +8,7 @@ export interface GifMetadata {
       height: string;
       width: string;
     };
-    fixed_height_small_still: {
+    fixed_width_small_still: {
       url: string;
       height: string;
       width: string;
