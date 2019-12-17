@@ -1,6 +1,6 @@
 import React, { memo } from "react";
 import { ListChildComponentProps, areEqual } from "react-window";
-import { GifMetadata } from "../../api/GiphyAPI/interfaces";
+import { GifMetadata } from "../../api/GiphySearchAPI/interfaces";
 import "./GifCard.scss";
 
 const TOP_BOTTOM_MARGIN: number = 20;

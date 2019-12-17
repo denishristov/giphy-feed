@@ -1,13 +1,11 @@
 import { useGifsStore } from "./useGifsStore";
-import { FakeGiphyAPI } from "../../api/GiphyAPI/FakeGiphyAPI";
+import { FakeSearchGiphyAPI } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
 import { renderHook, act } from "@testing-library/react-hooks";
 
 describe(useGifsStore, () => {
-  const api = new FakeGiphyAPI();
-
   describe("fetchNewBatch", () => {
     it("fetches and saves gifs", async () => {
-      const hook = renderHook(() => useGifsStore(api, 20));
+      const hook = renderHook(() => useGifsStore(FakeSearchGiphyAPI, 20));
 
       await act(() => {
         return hook.result.current.fetchNewBatch("kitty");
@@ -17,7 +15,7 @@ describe(useGifsStore, () => {
     });
 
     it("replaces current set of gifs", async () => {
-      const hook = renderHook(() => useGifsStore(api, 40));
+      const hook = renderHook(() => useGifsStore(FakeSearchGiphyAPI, 40));
 
       await act(() => {
         return hook.result.current.fetchNewBatch("kitty");
@@ -37,7 +35,7 @@ describe(useGifsStore, () => {
 
   describe("fetchNextBatch", () => {
     it("fetches and accumulates gifs", async () => {
-      const hook = renderHook(() => useGifsStore(api, 20));
+      const hook = renderHook(() => useGifsStore(FakeSearchGiphyAPI, 20));
 
       for (let i = 1; i <= 5; i++) {
         await act(() => {

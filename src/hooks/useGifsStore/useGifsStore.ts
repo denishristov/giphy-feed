@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { GifMetadata } from "../../api/GiphyAPI/interfaces";
-import { GifApi, GifsStore } from "./interfaces";
+import { GifMetadata } from "../../api/GiphySearchAPI/interfaces";
+import { GifsStore } from "./interfaces";
+import { GifSearchAPI } from "../../api/GifSearchAPI";
 
 const DEFAULT_PAGINATION: number = 8;
 
 export function useGifsStore(
-  api: GifApi,
+  search: GifSearchAPI,
   pagination: number = DEFAULT_PAGINATION
 ): GifsStore {
   const [gifs, setGifs] = useState<Array<GifMetadata>>([]);
@@ -13,7 +14,7 @@ export function useGifsStore(
 
   async function fetchNewBatch(searchTerm: string): Promise<void> {
     setGifs([]);
-    setGifs(await api.fetch(searchTerm, 0, pagination));
+    setGifs(await search(searchTerm, 0, pagination));
   }
 
   async function fetchNextBatch(searchTerm: string): Promise<void> {
@@ -23,7 +24,7 @@ export function useGifsStore(
 
     setIsFetching(true);
 
-    const batch = await api.fetch(searchTerm, gifs.length, pagination);
+    const batch = await search(searchTerm, gifs.length, pagination);
     setGifs(gifs => [...gifs, ...batch]);
 
     setIsFetching(false);

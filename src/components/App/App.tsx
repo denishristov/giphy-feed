@@ -1,13 +1,21 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { Header } from "../Header/Header";
 import { useGifsStore } from "../../hooks/useGifsStore/useGifsStore";
 import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
-import { GiphyAPI } from "../../api/GiphyAPI/GiphyAPI";
+import { createGiphySearchAPI } from "../../api/GiphySearchAPI/GiphySearchAPI";
+import { GiphySearchAPIConfig } from "../../api/GiphySearchAPI/interfaces";
+
+const GIPHY_CONFIG: GiphySearchAPIConfig = {
+  apiKey: process.env.REACT_APP_GIPHY_API_KEY!,
+  rating: "G",
+  lang: "en"
+};
+
+const gifApi = createGiphySearchAPI(GIPHY_CONFIG);
 
 const App: React.FC = () => {
-  const api = useMemo(() => new GiphyAPI(), []);
-  const gifsStore = useGifsStore(api);
+  const gifsStore = useGifsStore(gifApi);
   const [searchTerm, setSearchTerm] = useState("kittens");
 
   useEffect(() => {

@@ -1,3 +1,10 @@
+// todo clean these
+export interface GiphySearchAPIConfig {
+  apiKey: string;
+  rating: string;
+  lang: string;
+}
+
 export interface GifMetadata {
   id: string;
   title: string;

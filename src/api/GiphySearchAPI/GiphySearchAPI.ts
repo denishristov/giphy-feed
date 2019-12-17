@@ -1,23 +1,23 @@
 import Axios from "axios";
-import { GifMetadata, GiphySearchResponse } from "./interfaces";
+import { GifSearchAPI } from "../GifSearchAPI";
+import {
+  GifMetadata,
+  GiphySearchResponse,
+  GiphySearchAPIConfig
+} from "./interfaces";
 
-const baseURL = "https://api.giphy.com/v1/gifs/search";
-const apiKey = process.env.REACT_APP_GIPHY_API_KEY;
+const GIPHY_SEARCH_ENDPOINT: string = "https://api.giphy.com/v1/gifs/search";
 
-const config = {
-  apiKey,
-  rating: "G",
-  lang: "en"
-};
-
-export class GiphyAPI {
-  async fetch(
+export function createGiphySearchAPI(
+  config: GiphySearchAPIConfig
+): GifSearchAPI {
+  return async (
     searchTerm: string,
     offset: number,
     limit: number
-  ): Promise<Array<GifMetadata>> {
+  ): Promise<Array<GifMetadata>> => {
     const { data: responseData } = await Axios.get<GiphySearchResponse>(
-      baseURL,
+      GIPHY_SEARCH_ENDPOINT,
       {
         params: {
           q: searchTerm,
@@ -31,5 +31,5 @@ export class GiphyAPI {
     return responseData.data.filter(gif =>
       Number(gif.images.fixed_width_small_still.height)
     );
-  }
+  };
 }

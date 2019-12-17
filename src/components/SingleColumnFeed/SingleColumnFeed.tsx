@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { GifCard, GIF_CARD_WIDTH } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
-import { GifMetadata } from "../../api/GiphyAPI/interfaces";
+import { GifMetadata } from "../../api/GiphySearchAPI/interfaces";
 
 interface Props {
   feedKey: string;
