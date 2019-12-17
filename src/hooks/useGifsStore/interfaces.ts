@@ -1,5 +1,5 @@
 // todo remove this dep
-import { GifMetadata } from "../../api/GifAPI/interfaces";
+import { GifMetadata } from "../../api/GiphyAPI/interfaces";
 
 export interface GifsStore {
   gifs: Array<GifMetadata>;

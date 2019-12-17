@@ -3,7 +3,7 @@ import "./App.scss";
 import { Header } from "../Header/Header";
 import { useGifsStore } from "../../hooks/useGifsStore/useGifsStore";
 import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
-import { GiphyAPI } from "../../api/GifAPI/GiphyAPI";
+import { GiphyAPI } from "../../api/GiphyAPI/GiphyAPI";
 
 const App: React.FC = () => {
   const api = useMemo(() => new GiphyAPI(), []);

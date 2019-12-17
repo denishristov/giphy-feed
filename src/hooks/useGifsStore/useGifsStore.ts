@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GifMetadata } from "../../api/GifAPI/interfaces";
+import { GifMetadata } from "../../api/GiphyAPI/interfaces";
 import { GifApi, GifsStore } from "./interfaces";
 
 const DEFAULT_PAGINATION: number = 8;

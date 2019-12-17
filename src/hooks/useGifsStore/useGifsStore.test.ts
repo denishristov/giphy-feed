@@ -1,5 +1,5 @@
 import { useGifsStore } from "./useGifsStore";
-import { FakeGiphyAPI } from "../../api/GifAPI/FakeGiphyAPI";
+import { FakeGiphyAPI } from "../../api/GiphyAPI/FakeGiphyAPI";
 import { renderHook, act } from "@testing-library/react-hooks";
 
 describe(useGifsStore, () => {
