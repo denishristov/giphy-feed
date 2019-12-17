@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import { GifCard, GIF_CARD_WIDTH } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
-import { GifMetadata } from "../../api/GifAPI/GifAPI";
+import { GifMetadata } from "../../api/GifAPI/interfaces";
 
 interface Props {
   feedKey: string;
@@ -33,7 +33,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
   }
 
   function getItemKey(index: number, data: Array<GifMetadata>): string {
-    return data[index].images.fixed_width_small_still.url;
+    return data[index].id;
   }
 
   function handleItemsRendered({

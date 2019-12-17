@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import "./App.scss";
 import { Header } from "../Header/Header";
-import { useGifsStore } from "../../hooks/useGifsStore";
+import { useGifsStore } from "../../hooks/useGifsStore/useGifsStore";
 import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
+import { GiphyAPI } from "../../api/GifAPI/GiphyAPI";
 
 const App: React.FC = () => {
-  const gifsStore = useGifsStore();
+  const api = useMemo(() => new GiphyAPI(), []);
+  const gifsStore = useGifsStore(api);
   const [searchTerm, setSearchTerm] = useState("kittens");
 
   useEffect(() => {
