@@ -22,6 +22,7 @@ export function FakeSearchGiphyAPISync(
       images: {
         original: {
           url: `${searchTerm}-url-${i + offset}`,
+          mp4: `${searchTerm}-mp4-${i + offset}`,
           height: "200",
           width: "200"
         },

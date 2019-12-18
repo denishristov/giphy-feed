@@ -1,12 +1,12 @@
-.gif-card {
+.gif-wrapper {
   display: flex;
   justify-content: center;
 
-  .gif-wrapper {
+  .gif-card {
     position: relative;
     border-radius: 4px;
     overflow: hidden;
-    background-color: light-grey;
+    background-color: grey;
 
     &:hover {
       .gif-link {
@@ -14,9 +14,8 @@
       }
     }
 
-    img {
-      width: 100%;
-      height: 100%;
+    video {
+      object-fit: cover;
     }
 
     .gif-link {

@@ -6,7 +6,7 @@ import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
 import { createGiphySearchAPI } from "../../api/GiphySearchAPI/GiphySearchAPI";
 import { GiphySearchAPIConfig } from "../../api/GiphySearchAPI/interfaces";
 
-const PAGINATION: number = 20;
+const PAGINATION: number = 6;
 
 const GIPHY_CONFIG: GiphySearchAPIConfig = {
   apiKey: process.env.REACT_APP_GIPHY_API_KEY!,

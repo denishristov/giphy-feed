@@ -26,7 +26,7 @@ describe(SingleColumnFeed, () => {
   it("renders gifs with their appropriate height", () => {
     const wrapper = render(<SingleColumnFeed {...defaultProps} />);
 
-    for (const [index, gif] of wrapper.getAllByRole("gif").entries()) {
+    for (const [index, gif] of wrapper.getAllByTestId("gif").entries()) {
       const { height, width } = defaultProps.gifs[
         index
       ].images.fixed_width_small_still;
