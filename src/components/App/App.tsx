@@ -6,6 +6,8 @@ import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
 import { createGiphySearchAPI } from "../../api/GiphySearchAPI/GiphySearchAPI";
 import { GiphySearchAPIConfig } from "../../api/GiphySearchAPI/interfaces";
 
+const PAGINATION: number = 20;
+
 const GIPHY_CONFIG: GiphySearchAPIConfig = {
   apiKey: process.env.REACT_APP_GIPHY_API_KEY!,
   rating: "G",
@@ -15,7 +17,7 @@ const GIPHY_CONFIG: GiphySearchAPIConfig = {
 const gifApi = createGiphySearchAPI(GIPHY_CONFIG);
 
 const App: React.FC = () => {
-  const gifsStore = useGifsStore(gifApi);
+  const gifsStore = useGifsStore(gifApi, PAGINATION);
   const [searchTerm, setSearchTerm] = useState("kittens");
 
   useEffect(() => {
@@ -36,6 +38,7 @@ const App: React.FC = () => {
       <Header onSearchChange={handleSearch} />
       <SingleColumnFeed
         feedKey={searchTerm}
+        approachFeedEndDelta={PAGINATION / 2}
         gifs={gifsStore.gifs}
         onApproachingFeedEnd={handleApproachingFeedEnd}
       />

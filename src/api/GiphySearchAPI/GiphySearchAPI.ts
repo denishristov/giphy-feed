@@ -6,11 +6,11 @@ import {
   GiphySearchAPIConfig
 } from "./interfaces";
 
-const GIPHY_SEARCH_ENDPOINT: string = "https://api.giphy.com/v1/gifs/search";
-
 export function createGiphySearchAPI(
   config: GiphySearchAPIConfig
 ): GifSearchAPI {
+  const GIPHY_SEARCH_ENDPOINT: string = "https://api.giphy.com/v1/gifs/search";
+
   return async (
     searchTerm: string,
     offset: number,

@@ -1,19 +1,19 @@
 import React, { useRef, useEffect } from "react";
-import { GifCard, GIF_CARD_WIDTH } from "../GifCard/GifCard";
+import { GifCard, GIF_CARD_WIDTH, GIF_MARGIN } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
 import { GifMetadata } from "../../api/GiphySearchAPI/interfaces";
 
 interface Props {
   feedKey: string;
+  approachFeedEndDelta: number;
   gifs: Array<GifMetadata>;
   onApproachingFeedEnd(): void;
 }
 
-const APPROACHING_FEED_END_DELTA: number = 4;
-
 export const SingleColumnFeed: React.FC<Props> = ({
   feedKey,
   gifs,
+  approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
   const listRef = useRef<VariableSizeList | null>(null);
@@ -29,7 +29,9 @@ export const SingleColumnFeed: React.FC<Props> = ({
     const originalWidth = Number(width);
     const originalHeight = Number(height);
 
-    return Math.round((originalHeight * GIF_CARD_WIDTH) / originalWidth);
+    return (
+      Math.round((originalHeight * GIF_CARD_WIDTH) / originalWidth) + GIF_MARGIN
+    );
   }
 
   function getItemKey(index: number, data: Array<GifMetadata>): string {
@@ -39,7 +41,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
   function handleItemsRendered({
     overscanStopIndex
   }: ListOnItemsRenderedProps): void {
-    if (overscanStopIndex + APPROACHING_FEED_END_DELTA >= gifs.length) {
+    if (overscanStopIndex + approachFeedEndDelta >= gifs.length) {
       onApproachingFeedEnd();
     }
   }

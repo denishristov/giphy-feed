@@ -3,11 +3,9 @@ import { GifMetadata } from "../../api/GiphySearchAPI/interfaces";
 import { GifsStore } from "./interfaces";
 import { GifSearchAPI } from "../../api/GifSearchAPI";
 
-const DEFAULT_PAGINATION: number = 8;
-
 export function useGifsStore(
   search: GifSearchAPI,
-  pagination: number = DEFAULT_PAGINATION
+  pagination: number
 ): GifsStore {
   const [gifs, setGifs] = useState<Array<GifMetadata>>([]);
   const [isFetching, setIsFetching] = useState(false);
