@@ -21,7 +21,7 @@ describe(SingleColumnFeed, () => {
   it("renders at least 1 gif", () => {
     const wrapper = render(<SingleColumnFeed {...defaultProps} />);
 
-    expect(wrapper.getAllByRole("gif").length).toBeGreaterThanOrEqual(1);
+    expect(wrapper.getAllByTestId("gif").length).toBeGreaterThanOrEqual(1);
   });
 
   it("renders gifs with their appropriate height", () => {
