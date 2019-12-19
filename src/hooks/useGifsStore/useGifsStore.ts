@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Gif } from "../../api/GiphySearchAPI/interfaces";
 import { GifsStore } from "./interfaces";
 import { GifSearchAPI } from "../../api/GifSearchAPI";
@@ -8,6 +8,7 @@ export function useGifsStore(
   pagination: number
 ): GifsStore {
   const [gifs, setGifs] = useState<Array<Gif>>([]);
+  const loadedGifs = useMemo(() => new Set<string>(), []);
   const [isFetching, setIsFetching] = useState(false);
 
   async function fetchNewBatch(searchTerm: string): Promise<void> {
@@ -30,6 +31,7 @@ export function useGifsStore(
 
   return {
     gifs,
+    loadedGifs,
     fetchNewBatch,
     fetchNextBatch
   };

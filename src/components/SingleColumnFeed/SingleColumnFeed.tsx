@@ -7,12 +7,14 @@ interface Props {
   feedKey: string;
   approachFeedEndDelta: number;
   gifs: Array<Gif>;
+  loadedGifs: Set<string>;
   onApproachingFeedEnd(): void;
 }
 
 export const SingleColumnFeed: React.FC<Props> = ({
   feedKey,
   gifs,
+  loadedGifs,
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
@@ -34,8 +36,8 @@ export const SingleColumnFeed: React.FC<Props> = ({
     );
   }
 
-  function getItemKey(index: number, data: Array<Gif>): string {
-    return data[index].id;
+  function getItemKey(index: number): string {
+    return gifs[index].id;
   }
 
   function handleItemsRendered({
@@ -49,7 +51,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
   return (
     <VariableSizeList
       ref={listRef}
-      itemData={gifs}
+      itemData={{ gifs, loadedGifs }}
       height={window.innerHeight - 82}
       itemCount={gifs.length}
       itemSize={calculateItemHeight}

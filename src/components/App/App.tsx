@@ -6,7 +6,7 @@ import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
 import { createGiphySearchAPI } from "../../api/GiphySearchAPI/GiphySearchAPI";
 import { GiphySearchAPIConfig } from "../../api/GiphySearchAPI/interfaces";
 
-const PAGINATION: number = 100;
+const PAGINATION: number = 40;
 
 const GIPHY_CONFIG: GiphySearchAPIConfig = {
   apiKey: process.env.REACT_APP_GIPHY_API_KEY!,
@@ -40,6 +40,7 @@ const App: React.FC = () => {
         feedKey={searchTerm}
         approachFeedEndDelta={PAGINATION / 2}
         gifs={gifsStore.gifs}
+        loadedGifs={gifsStore.loadedGifs}
         onApproachingFeedEnd={handleApproachingFeedEnd}
       />
     </div>

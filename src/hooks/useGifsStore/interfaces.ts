@@ -3,6 +3,7 @@ import { Gif } from "../../api/GiphySearchAPI/interfaces";
 
 export interface GifsStore {
   gifs: Array<Gif>;
+  loadedGifs: Set<string>;
   fetchNewBatch(searchTerm: string): Promise<void>;
   fetchNextBatch(searchTerm: string): Promise<void>;
 }

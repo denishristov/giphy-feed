@@ -9,6 +9,7 @@ describe(SingleColumnFeed, () => {
     feedKey: "id",
     approachFeedEndDelta: 5,
     gifs: FakeSearchGiphyAPISync("kitty", 0, 20),
+    loadedGifs: new Set<string>(),
     onApproachingFeedEnd: jest.fn()
   };
 
