@@ -27,9 +27,7 @@ describe(SingleColumnFeed, () => {
     const wrapper = render(<SingleColumnFeed {...defaultProps} />);
 
     for (const [index, gif] of wrapper.getAllByTestId("gif").entries()) {
-      const { height, width } = defaultProps.gifs[
-        index
-      ].images.fixed_width_small_still;
+      const { height, width } = defaultProps.gifs[index].images.downsized_still;
       // Appropriate means scaled, so that the aspect ratio is left unchanged
       const appropriateHeight =
         (Number(height) * GIF_CARD_WIDTH) / Number(width) + GIF_MARGIN;

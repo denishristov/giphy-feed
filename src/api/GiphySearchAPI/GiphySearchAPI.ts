@@ -1,10 +1,6 @@
 import Axios from "axios";
 import { GifSearchAPI } from "../GifSearchAPI";
-import {
-  GifMetadata,
-  GiphySearchResponse,
-  GiphySearchAPIConfig
-} from "./interfaces";
+import { Gif, GiphySearchResponse, GiphySearchAPIConfig } from "./interfaces";
 
 export function createGiphySearchAPI(
   config: GiphySearchAPIConfig
@@ -15,7 +11,7 @@ export function createGiphySearchAPI(
     searchTerm: string,
     offset: number,
     limit: number
-  ): Promise<Array<GifMetadata>> => {
+  ): Promise<Array<Gif>> => {
     const { data: responseData } = await Axios.get<GiphySearchResponse>(
       GIPHY_SEARCH_ENDPOINT,
       {
@@ -29,7 +25,7 @@ export function createGiphySearchAPI(
     );
 
     return responseData.data.filter(gif =>
-      Number(gif.images.fixed_width_small_still.height)
+      Number(gif.images.downsized_still.height)
     );
   };
 }

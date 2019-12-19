@@ -5,22 +5,21 @@ export interface GiphySearchAPIConfig {
   lang: string;
 }
 
-export interface GifMetadata {
+interface Image {
+  url: string;
+  height: string;
+  width: string;
+  size: string;
+}
+
+export interface Gif {
   id: string;
   title: string;
   url: string;
   images: {
-    original: {
-      url: string;
-      height: string;
-      width: string;
-      webp: string;
-    };
-    fixed_width_small_still: {
-      url: string;
-      height: string;
-      width: string;
-    };
+    original: Image;
+    downsized_still: Image;
+    fixed_width_small_still: Image;
   };
 }
 
@@ -37,7 +36,7 @@ interface Meta {
 }
 
 export interface GiphySearchResponse {
-  data: Array<GifMetadata>;
+  data: Array<Gif>;
   pagination: Pagination;
   meta: Meta;
 }

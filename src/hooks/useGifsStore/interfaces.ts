@@ -1,8 +1,8 @@
 // todo remove this dep
-import { GifMetadata } from "../../api/GiphySearchAPI/interfaces";
+import { Gif } from "../../api/GiphySearchAPI/interfaces";
 
 export interface GifsStore {
-  gifs: Array<GifMetadata>;
+  gifs: Array<Gif>;
   fetchNewBatch(searchTerm: string): Promise<void>;
   fetchNextBatch(searchTerm: string): Promise<void>;
 }

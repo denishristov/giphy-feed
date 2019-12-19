@@ -6,7 +6,7 @@
     position: relative;
     border-radius: 4px;
     overflow: hidden;
-    background-color: grey;
+    background-color: #cfcfcf;
 
     &:hover {
       .gif-link {
@@ -14,7 +14,7 @@
       }
     }
 
-    video {
+    image {
       object-fit: cover;
     }
 

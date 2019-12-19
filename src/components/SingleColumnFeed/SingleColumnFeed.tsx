@@ -1,12 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import { GifCard, GIF_CARD_WIDTH, GIF_MARGIN } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
-import { GifMetadata } from "../../api/GiphySearchAPI/interfaces";
+import { Gif } from "../../api/GiphySearchAPI/interfaces";
 
 interface Props {
   feedKey: string;
   approachFeedEndDelta: number;
-  gifs: Array<GifMetadata>;
+  gifs: Array<Gif>;
   onApproachingFeedEnd(): void;
 }
 
@@ -25,7 +25,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
   function calculateItemHeight(index: number) {
     const gif = gifs[index];
 
-    const { width, height } = gif.images.fixed_width_small_still;
+    const { width, height } = gif.images.downsized_still;
     const originalWidth = Number(width);
     const originalHeight = Number(height);
 
@@ -34,7 +34,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
     );
   }
 
-  function getItemKey(index: number, data: Array<GifMetadata>): string {
+  function getItemKey(index: number, data: Array<Gif>): string {
     return data[index].id;
   }
 
@@ -55,6 +55,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
       itemSize={calculateItemHeight}
       itemKey={getItemKey}
       width={window.innerWidth}
+      useIsScrolling={true}
       onItemsRendered={handleItemsRendered}
     >
       {GifCard}
