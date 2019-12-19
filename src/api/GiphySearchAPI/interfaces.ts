@@ -14,7 +14,7 @@ export interface GifMetadata {
       url: string;
       height: string;
       width: string;
-      mp4: string;
+      webp: string;
     };
     fixed_width_small_still: {
       url: string;
