@@ -8,8 +8,8 @@ export function useGifsStore(
   pagination: number
 ): GifsStore {
   const [gifs, setGifs] = useState<Array<Gif>>([]);
-  const loadedGifs = useMemo(() => new Set<string>(), []);
   const [isFetching, setIsFetching] = useState(false);
+  const loadedGifs = useMemo(() => new Set<string>(), []);
 
   async function fetchNewBatch(searchTerm: string): Promise<void> {
     setGifs([]);

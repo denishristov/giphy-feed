@@ -8,6 +8,8 @@ interface Props {
 
 const DEBOUNCE_WAIT: number = 300;
 
+export const HEADER_HEIGHT: number = 82;
+
 export const Header: React.FC<Props> = ({ onSearchChange }) => {
   const debouncedSearchChangeHandler = debounce(onSearchChange, DEBOUNCE_WAIT);
 
@@ -16,7 +18,7 @@ export const Header: React.FC<Props> = ({ onSearchChange }) => {
   }
 
   return (
-    <header className="feed-header">
+    <header className="feed-header" data-testid="header">
       <input placeholder="Search gifs..." onChange={handleChange} />
     </header>
   );

@@ -1,10 +1,22 @@
 import React from "react";
-import { render } from "@testing-library/react";
-import App from "./App";
+import { shallow } from "enzyme";
+import { App } from "./App";
+import { FakeSearchGiphyAPI } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
+import { Header } from "../Header/Header";
+import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
 
 describe(App, () => {
+  const wrapper = shallow(<App gifSearchApi={FakeSearchGiphyAPI} />);
+
   it("renders", () => {
-    const wrapper = render(<App />);
-    expect(wrapper.container).toBeInTheDocument();
+    expect(wrapper).toExist();
+  });
+
+  it("renders header", () => {
+    expect(wrapper).toContainMatchingElement(Header.name);
+  });
+
+  it("renders feed", () => {
+    expect(wrapper).toContainMatchingElement(SingleColumnFeed.name);
   });
 });

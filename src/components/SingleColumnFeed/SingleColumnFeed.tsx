@@ -2,6 +2,7 @@ import React, { useRef, useEffect } from "react";
 import { GifCard, GIF_CARD_WIDTH, GIF_MARGIN } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
 import { Gif } from "../../api/GiphySearchAPI/interfaces";
+import { HEADER_HEIGHT } from "../Header/Header";
 
 interface Props {
   feedKey: string;
@@ -52,7 +53,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
     <VariableSizeList
       ref={listRef}
       itemData={{ gifs, loadedGifs }}
-      height={window.innerHeight - 82}
+      height={window.innerHeight - HEADER_HEIGHT}
       itemCount={gifs.length}
       itemSize={calculateItemHeight}
       itemKey={getItemKey}

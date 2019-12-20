@@ -1,23 +1,21 @@
 import React from "react";
 import { Header } from "./Header";
-import { render, fireEvent } from "@testing-library/react";
+import { shallow } from "enzyme";
 
 describe(Header, () => {
+  const handleSearch = jest.fn();
+  const wrapper = shallow(<Header onSearchChange={handleSearch} />);
+
   it("renders", () => {
-    const wrapper = render(<Header onSearchChange={jest.fn()} />);
-    expect(wrapper.container).toBeInTheDocument();
+    expect(wrapper).toExist();
   });
 
-  it("renders search", () => {
-    const wrapper = render(<Header onSearchChange={jest.fn()} />);
-    expect(wrapper.getByPlaceholderText("Search gifs...")).toBeInTheDocument();
+  it("renders search input", () => {
+    expect(wrapper.find('input[placeholder="Search gifs..."]')).toExist();
   });
 
   it("calls onSearchChange on input change", () => {
-    const handleSearch = jest.fn();
-    const wrapper = render(<Header onSearchChange={handleSearch} />);
-
-    fireEvent.change(wrapper.getByPlaceholderText("Search gifs..."), {
+    wrapper.find("input").simulate("change", {
       target: { value: "test" }
     });
 

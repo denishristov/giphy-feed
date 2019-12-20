@@ -1,28 +1,23 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.scss";
 import { Header } from "../Header/Header";
 import { useGifsStore } from "../../hooks/useGifsStore/useGifsStore";
 import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
-import { createGiphySearchAPI } from "../../api/GiphySearchAPI/GiphySearchAPI";
-import { GiphySearchAPIConfig } from "../../api/GiphySearchAPI/interfaces";
+import { GifSearchAPI } from "../../api/GifSearchAPI";
 
 const PAGINATION: number = 40;
 
-const GIPHY_CONFIG: GiphySearchAPIConfig = {
-  apiKey: process.env.REACT_APP_GIPHY_API_KEY!,
-  rating: "G",
-  lang: "en"
-};
+interface Props {
+  gifSearchApi: GifSearchAPI;
+}
 
-const gifApi = createGiphySearchAPI(GIPHY_CONFIG);
-
-const App: React.FC = () => {
-  const gifsStore = useGifsStore(gifApi, PAGINATION);
+export const App: React.FC<Props> = ({ gifSearchApi }) => {
+  const gifsStore = useGifsStore(gifSearchApi, PAGINATION);
   const [searchTerm, setSearchTerm] = useState("dog");
 
-  useEffect(() => {
-    gifsStore.fetchNewBatch(searchTerm);
-  }, []);
+  // useEffect(() => {
+  //   gifsStore.fetchNewBatch(searchTerm);
+  // }, []);
 
   function handleSearch(value: string): void {
     setSearchTerm(value);
@@ -35,8 +30,9 @@ const App: React.FC = () => {
 
   return (
     <div className="app">
-      <Header onSearchChange={handleSearch} />
+      <Header onSearchChange={handleSearch} data-testid="header" />
       <SingleColumnFeed
+        data-testid="feed"
         feedKey={searchTerm}
         approachFeedEndDelta={PAGINATION / 2}
         gifs={gifsStore.gifs}
@@ -46,5 +42,3 @@ const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;
