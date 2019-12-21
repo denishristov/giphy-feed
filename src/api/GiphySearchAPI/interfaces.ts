@@ -5,7 +5,7 @@ export interface GiphySearchAPIConfig {
   lang: string;
 }
 
-interface Image {
+export interface Image {
   url: string;
   height: string;
   width: string;

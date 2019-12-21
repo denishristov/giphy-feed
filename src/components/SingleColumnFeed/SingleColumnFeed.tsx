@@ -1,11 +1,14 @@
 import React, { useRef, useEffect } from "react";
-import { GifCard, GIF_CARD_WIDTH, GIF_MARGIN } from "../GifCard/GifCard";
+import { GifCard } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
 import { Gif } from "../../api/GiphySearchAPI/interfaces";
-import { HEADER_HEIGHT } from "../Header/Header";
+import { GifData } from "./SingleColumnFeedItemProps";
 
 interface Props {
   feedKey: string;
+  height: number;
+  itemWidth: number;
+  itemMargin: number;
   approachFeedEndDelta: number;
   gifs: Array<Gif>;
   loadedGifs: Set<string>;
@@ -14,12 +17,21 @@ interface Props {
 
 export const SingleColumnFeed: React.FC<Props> = ({
   feedKey,
+  height,
+  itemWidth,
+  itemMargin,
   gifs,
   loadedGifs,
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
   const listRef = useRef<VariableSizeList | null>(null);
+  const gifData: GifData = {
+    width: itemWidth,
+    margin: itemMargin,
+    gifs,
+    loadedGifs
+  };
 
   useEffect(() => {
     listRef.current?.resetAfterIndex(0, true);
@@ -33,7 +45,7 @@ export const SingleColumnFeed: React.FC<Props> = ({
     const originalHeight = Number(height);
 
     return (
-      Math.round((originalHeight * GIF_CARD_WIDTH) / originalWidth) + GIF_MARGIN
+      Math.round((originalHeight * itemWidth) / originalWidth) + itemMargin
     );
   }
 
@@ -52,8 +64,8 @@ export const SingleColumnFeed: React.FC<Props> = ({
   return (
     <VariableSizeList
       ref={listRef}
-      itemData={{ gifs, loadedGifs }}
-      height={window.innerHeight - HEADER_HEIGHT}
+      itemData={gifData}
+      height={height}
       itemCount={gifs.length}
       itemSize={calculateItemHeight}
       itemKey={getItemKey}

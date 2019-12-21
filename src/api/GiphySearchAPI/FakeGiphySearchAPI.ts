@@ -1,4 +1,4 @@
-import { Gif } from "./interfaces";
+import { Gif, Image } from "./interfaces";
 
 export function FakeSearchGiphyAPI(
   searchTerm: string,
@@ -18,26 +18,29 @@ export function FakeSearchGiphyAPISync(
     .map((_, i) => ({
       id: `${searchTerm}-${i + offset}`,
       title: `${searchTerm}-gif-${i + offset}`,
-      url: `${searchTerm}-url-${i + offset}`,
+      url: FakeURL("post", searchTerm, i + offset),
       images: {
-        original: {
-          url: `${searchTerm}-url-${i + offset}`,
-          size: "3400",
-          height: "200",
-          width: "200"
-        },
-        downsized_still: {
-          url: `${searchTerm}-url-${i + offset}`,
-          height: "200",
-          size: "3400",
-          width: "200"
-        },
-        fixed_width_small_still: {
-          url: `${searchTerm}-url-${i + offset}`,
-          size: "3400",
-          height: "200",
-          width: "200"
-        }
+        original: FakeImage("original", searchTerm, i + offset),
+        downsized_still: FakeImage("medium", searchTerm, i + offset),
+        fixed_width_small_still: FakeImage("small", searchTerm, i + offset)
       }
     }));
+}
+
+function FakeImage(key: string, searchTerm: string, index: number): Image {
+  return {
+    url: FakeURL(key, searchTerm, index),
+    size: "3400",
+    height: "200",
+    width: "200"
+  };
+}
+
+function FakeURL(
+  key: string,
+  searchTerm: string,
+  index: number,
+  suffix: string = "gif"
+): string {
+  return `https://www.fake.com/${key}-${searchTerm}-${index}.${suffix}`;
 }
