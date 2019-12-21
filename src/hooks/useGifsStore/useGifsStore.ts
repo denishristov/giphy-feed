@@ -1,32 +1,39 @@
 import { useState, useMemo } from "react";
-import { Gif } from "../../api/GiphySearchAPI/interfaces";
 import { GifsStore } from "./interfaces";
-import { GifSearchAPI } from "../../api/GifSearchAPI";
+import { GifSearchAPI, Gif } from "../../api/GifSearchAPI";
 
 export function useGifsStore(
   search: GifSearchAPI,
   pagination: number
 ): GifsStore {
   const [gifs, setGifs] = useState<Array<Gif>>([]);
+  const [total, setTotal] = useState(-1);
   const [isFetching, setIsFetching] = useState(false);
   const loadedGifs = useMemo(() => new Set<string>(), []);
 
   async function fetchNewBatch(searchTerm: string): Promise<void> {
     setGifs([]);
-    setGifs(await search(searchTerm, 0, pagination));
+    const { gifs, total } = await search(searchTerm, 0, pagination);
+    setGifs(gifs);
+    setTotal(total);
   }
 
   async function fetchNextBatch(searchTerm: string): Promise<void> {
-    if (isFetching) {
+    if (isFetching || gifs.length === total) {
       return;
     }
 
     setIsFetching(true);
 
     const batch = await search(searchTerm, gifs.length, pagination);
-    setGifs(gifs => [...gifs, ...batch]);
+
+    setGifs(gifs => [...gifs, ...batch.gifs]);
 
     setIsFetching(false);
+
+    if (total !== batch.total) {
+      setTotal(batch.total);
+    }
   }
 
   return {

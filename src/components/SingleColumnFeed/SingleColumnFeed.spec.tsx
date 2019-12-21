@@ -11,7 +11,7 @@ describe(SingleColumnFeed, () => {
     itemWidth: 400,
     itemMargin: 20,
     approachFeedEndDelta: 5,
-    gifs: FakeSearchGiphyAPISync("kitty", 0, 20),
+    gifs: FakeSearchGiphyAPISync("kitty", 0, 20).gifs,
     loadedGifs: new Set<string>(),
     onApproachingFeedEnd: jest.fn()
   };
@@ -31,7 +31,7 @@ describe(SingleColumnFeed, () => {
       .find(GifCard)
       .getElements()
       .entries()) {
-      const { height, width } = defaultProps.gifs[i].images.downsized_still;
+      const { height, width } = defaultProps.gifs[i].images.still;
 
       /* Correctly scaled means that the aspect ratio is left unchanged. */
       const appropriateHeight =

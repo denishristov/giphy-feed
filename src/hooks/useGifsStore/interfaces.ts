@@ -1,5 +1,4 @@
-// todo remove this dep
-import { Gif } from "../../api/GiphySearchAPI/interfaces";
+import { Gif } from "../../api/GifSearchAPI";
 
 export interface GifsStore {
   gifs: Array<Gif>;

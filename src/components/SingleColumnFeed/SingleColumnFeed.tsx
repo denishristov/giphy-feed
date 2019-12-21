@@ -1,8 +1,8 @@
 import React, { useRef, useEffect } from "react";
 import { GifCard } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
-import { Gif } from "../../api/GiphySearchAPI/interfaces";
 import { GifData } from "./SingleColumnFeedItemProps";
+import { Gif } from "../../api/GifSearchAPI";
 
 interface Props {
   feedKey: string;
@@ -39,14 +39,9 @@ export const SingleColumnFeed: React.FC<Props> = ({
 
   function calculateItemHeight(index: number) {
     const gif = gifs[index];
+    const { width, height } = gif.images.still;
 
-    const { width, height } = gif.images.downsized_still;
-    const originalWidth = Number(width);
-    const originalHeight = Number(height);
-
-    return (
-      Math.round((originalHeight * itemWidth) / originalWidth) + itemMargin
-    );
+    return Math.round((height * itemWidth) / width) + itemMargin;
   }
 
   function getItemKey(index: number): string {

@@ -1,5 +1,5 @@
-import { Gif } from "../../api/GiphySearchAPI/interfaces";
 import { ListChildComponentProps } from "react-window";
+import { Gif } from "../../api/GifSearchAPI";
 
 export interface SingleColumnFeedItemProps extends ListChildComponentProps {
   data: GifData;

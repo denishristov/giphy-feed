@@ -1,6 +1,6 @@
 import Axios from "axios";
-import { GifSearchAPI } from "../GifSearchAPI";
-import { Gif, GiphySearchResponse, GiphySearchAPIConfig } from "./interfaces";
+import { GifSearchAPI, GifSearchAPIResponse } from "../GifSearchAPI";
+import { GiphySearchResponse, GiphySearchAPIConfig } from "./interfaces";
 
 export function createGiphySearchAPI(
   config: GiphySearchAPIConfig
@@ -11,21 +11,47 @@ export function createGiphySearchAPI(
     searchTerm: string,
     offset: number,
     limit: number
-  ): Promise<Array<Gif>> => {
-    const { data: responseData } = await Axios.get<GiphySearchResponse>(
-      GIPHY_SEARCH_ENDPOINT,
-      {
-        params: {
-          q: searchTerm,
-          offset,
-          limit,
-          ...config
-        }
+  ): Promise<GifSearchAPIResponse> => {
+    const {
+      data: { data, pagination }
+    } = await Axios.get<GiphySearchResponse>(GIPHY_SEARCH_ENDPOINT, {
+      params: {
+        q: searchTerm,
+        offset,
+        limit,
+        ...config
       }
-    );
+    });
 
-    return responseData.data.filter(gif =>
-      Number(gif.images.downsized_still.height)
-    );
+    const gifs = data
+      .filter(
+        gif =>
+          Number(gif.images.fixed_width_small_still.height) &&
+          Number(gif.images.original.height)
+      )
+      .map(gif => ({
+        id: gif.id,
+        title: gif.title,
+        url: gif.url,
+        images: {
+          original: {
+            url: gif.images.original.url,
+            height: Number(gif.images.original.height),
+            width: Number(gif.images.original.width),
+            size: Number(gif.images.original.size)
+          },
+          still: {
+            url: gif.images.fixed_width_small_still.url,
+            height: Number(gif.images.fixed_width_small_still.height),
+            width: Number(gif.images.fixed_width_small_still.width),
+            size: Number(gif.images.fixed_width_small_still.size)
+          }
+        }
+      }));
+
+    return {
+      gifs,
+      total: pagination.total_count - (data.length - gifs.length)
+    };
   };
 }

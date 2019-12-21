@@ -5,7 +5,7 @@ import { FakeSearchGiphyAPISync } from "../../api/GiphySearchAPI/FakeGiphySearch
 import { act } from "@testing-library/react-hooks";
 
 describe(GifCard.name, () => {
-  const gifs = FakeSearchGiphyAPISync("kitty", 0, 20);
+  const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 20);
   const component = (
     <GifCard
       style={{
@@ -48,7 +48,7 @@ describe(GifCard.name, () => {
   it("uses small image src when scrolling", () => {
     wrapper.setProps({ isScrolling: true });
     expect(wrapper.find("img").getDOMNode<HTMLImageElement>().src).toBe(
-      gifs[0].images.fixed_width_small_still.url
+      gifs[0].images.still.url
     );
   });
 
