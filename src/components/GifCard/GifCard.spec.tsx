@@ -30,7 +30,7 @@ describe(GifCard.name, () => {
   });
 
   it("renders img", () => {
-    expect(wrapper.find("img")).toExist();
+    expect(wrapper.find(".gif")).toExist();
   });
 
   it("renders gif link", () => {
@@ -40,14 +40,14 @@ describe(GifCard.name, () => {
   });
 
   it("uses original image src initially", () => {
-    expect(wrapper.find("img").getDOMNode<HTMLImageElement>().src).toBe(
+    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
       gifs[0].images.original.url
     );
   });
 
   it("uses small image src when scrolling", () => {
     wrapper.setProps({ isScrolling: true });
-    expect(wrapper.find("img").getDOMNode<HTMLImageElement>().src).toBe(
+    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
       gifs[0].images.still.url
     );
   });
@@ -55,16 +55,16 @@ describe(GifCard.name, () => {
   it("uses original image src when scrolling if it has already been fetched", () => {
     const wrapper = mount(component);
 
-    expect(wrapper.find("img").getDOMNode<HTMLImageElement>().src).toBe(
+    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
       gifs[0].images.original.url
     );
 
     act(() => {
-      wrapper.find("img").simulate("load");
+      wrapper.find(".gif").simulate("load");
     });
 
     wrapper.setProps({ isScrolling: true });
-    expect(wrapper.find("img").getDOMNode<HTMLImageElement>().src).toBe(
+    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
       gifs[0].images.original.url
     );
   });

@@ -2,6 +2,8 @@ import Axios from "axios";
 import { GifSearchAPI, GifSearchAPIResponse } from "../GifSearchAPI";
 import { GiphySearchResponse, GiphySearchAPIConfig } from "./interfaces";
 
+const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
 export function createGiphySearchAPI(
   config: GiphySearchAPIConfig
 ): GifSearchAPI {
@@ -35,7 +37,7 @@ export function createGiphySearchAPI(
         url: gif.url,
         images: {
           original: {
-            url: gif.images.original.url,
+            url: isSafari ? gif.images.original.url : gif.images.original.webp,
             height: Number(gif.images.original.height),
             width: Number(gif.images.original.width),
             size: Number(gif.images.original.size)

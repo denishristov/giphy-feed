@@ -14,7 +14,11 @@
       }
     }
 
-    image {
+    .dummy {
+      display: none;
+    }
+
+    .gif {
       object-fit: cover;
     }
 

@@ -21,7 +21,7 @@ interface Gif {
   title: string;
   url: string;
   images: {
-    original: Image;
+    original: Image & { webp: string };
     fixed_width_small_still: Image;
   };
 }
