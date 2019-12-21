@@ -18,23 +18,21 @@ export const GifCard: React.FC<SingleColumnFeedItemProps> = memo(
       width
     };
 
-    // const [hasLoadedOriginal, setHasLoadedOriginal] = useState(
-    //   loadedGifs.has(original.url)
-    // );
+    const [hasLoadedOriginal, setHasLoadedOriginal] = useState(
+      loadedGifs.has(original.url)
+    );
 
-    const [hasLoadedStill, setHasLoadedStill] = useState(false);
+    const [hasStoppedScrolling, setHasStoppedScrolling] = useState(
+      !isScrolling
+    );
 
-    // if (!isScrolling && !hasLoadedStill) {
-    //   setHasLoadedStill(true);
-    // }
+    if (!isScrolling && !hasStoppedScrolling) {
+      setHasStoppedScrolling(true);
+    }
 
-    // function handleLoadedGif(): void {
-    //   setHasLoadedOriginal(true);
-    //   // loadedGifs.add(original.url);
-    // }
-
-    function handleLoaded(): void {
-      setHasLoadedStill(true);
+    function handleLoadedGif(): void {
+      setHasLoadedOriginal(true);
+      loadedGifs.add(original.url);
     }
 
     return (
@@ -45,9 +43,16 @@ export const GifCard: React.FC<SingleColumnFeedItemProps> = memo(
             alt={title}
             width={width}
             height={Number(style.height) - margin}
-            src={hasLoadedStill ? original.url : still.url}
-            onLoad={handleLoaded}
+            src={hasLoadedOriginal ? original.url : still.url}
           />
+          {hasStoppedScrolling && !hasLoadedOriginal && (
+            <img
+              className="dummy"
+              alt={title}
+              src={original.url}
+              onLoad={handleLoadedGif}
+            />
+          )}
           {title && (
             <div className="gif-link">
               <a href={url}>{title}</a>
