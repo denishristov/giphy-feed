@@ -33,13 +33,13 @@ export const ListFeed: React.FC<FeedProps> = ({
     >
       {({ style, ...props }) => {
         const horizontallyCenteredLeftOffset = (width - itemWidth) / 2;
-        const itemTopMargin = (props.index + 1) * itemMargin;
 
         const horizontallyCenteredStyle = {
           ...style,
-          top: Number(style.top) + itemTop + itemTopMargin,
+          top: Number(style.top) + itemTop + itemMargin,
           left: horizontallyCenteredLeftOffset,
-          width: itemWidth
+          width: itemWidth,
+          height: Number(style.height) - itemMargin
         };
 
         return <GifCard style={horizontallyCenteredStyle} {...props} />;
@@ -52,7 +52,7 @@ export const ListFeed: React.FC<FeedProps> = ({
     const { width, height } = gif.images.still;
 
     /* Scaled so the aspect ratio is left unchanged. */
-    return Math.round((height * itemWidth) / width);
+    return Math.round((height * itemWidth) / width) + itemMargin;
   }
 
   function handleItemsRendered({

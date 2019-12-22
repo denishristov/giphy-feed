@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import { GifCard } from "../GifCard/GifCard";
-import { VariableSizeGrid, GridOnItemsRenderedProps } from "react-window";
+import { GridOnItemsRenderedProps, FixedSizeGrid } from "react-window";
 import { FeedProps } from "../../types/FeedProps";
 
 interface GridFeedProps extends FeedProps {
@@ -21,12 +21,12 @@ export const GridFeed: React.FC<GridFeedProps> = ({
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
-  const listRef = useRef<VariableSizeGrid | null>(null);
+  const listRef = useRef<FixedSizeGrid | null>(null);
 
   /* Since grid feed's items are squares their height = their width. */
   const itemSize = itemWidth;
   const itemsPerRow = Math.min(
-    Math.floor(window.innerWidth / getRowAndColumnSize()),
+    Math.floor((window.innerWidth - itemMargin) / (itemSize + itemMargin)),
     maxItemsPerRow
   );
 
@@ -39,17 +39,15 @@ export const GridFeed: React.FC<GridFeedProps> = ({
   }, [feedKey]);
 
   return (
-    <VariableSizeGrid
+    <FixedSizeGrid
       ref={listRef}
       itemData={gifs}
       width={width}
       height={height}
       columnCount={itemsPerRow}
       rowCount={Math.ceil(gifs.length / itemsPerRow) + placeholdersCount}
-      estimatedRowHeight={itemSize}
-      estimatedColumnWidth={itemSize}
-      rowHeight={getRowAndColumnSize}
-      columnWidth={getRowAndColumnSize}
+      rowHeight={itemSize + itemMargin}
+      columnWidth={itemSize + itemMargin}
       useIsScrolling={true}
       onItemsRendered={handleItemsRendered}
     >
@@ -58,27 +56,20 @@ export const GridFeed: React.FC<GridFeedProps> = ({
         const horizontallyCenteredLeftOffset =
           (width - itemsPerRow * (itemMargin + itemSize) - itemMargin) / 2;
 
-        const itemLeftMargin = (columnIndex + 1) * itemMargin;
-        const itemTopMargin = (rowIndex + 1) * itemMargin;
-
         const horizontallyCenteredStyle = {
           ...style,
-          width: itemWidth,
-          top: Number(style.top) + itemTop + itemTopMargin,
-          left:
-            Number(style.left) + horizontallyCenteredLeftOffset + itemLeftMargin
+          height: itemSize,
+          width: itemSize,
+          top: Number(style.top) + itemTop + itemMargin,
+          left: Number(style.left) + horizontallyCenteredLeftOffset + itemMargin
         };
 
         return (
           <GifCard index={index} style={horizontallyCenteredStyle} {...props} />
         );
       }}
-    </VariableSizeGrid>
+    </FixedSizeGrid>
   );
-
-  function getRowAndColumnSize(): number {
-    return itemSize;
-  }
 
   function handleItemsRendered({
     overscanRowStopIndex,

@@ -38,8 +38,6 @@ describe(GridFeed, () => {
   });
 
   it("layouts items", () => {
-    let topOffsetAccumulator = itemMargin;
-
     const horizontallyCenteredLeftOffset =
       (window.innerWidth -
         maxItemsPerRow * (itemMargin + itemSize) -
@@ -50,19 +48,19 @@ describe(GridFeed, () => {
       .find(GifCard)
       .getElements()
       .entries()) {
+      const accumulatedLeftOffset =
+        (i % maxItemsPerRow) * itemSize +
+        ((i % maxItemsPerRow) + 1) * itemMargin;
+
+      const accumulatedTopOffset =
+        Math.floor(i / 3) * (itemMargin + itemSize) + itemMargin;
+
       expect(gif.props.style).toMatchObject({
         height: itemSize,
         width: itemSize,
-        left:
-          horizontallyCenteredLeftOffset +
-          (i % maxItemsPerRow) * itemSize +
-          ((i % maxItemsPerRow) + 1) * itemMargin,
-        top: topOffsetAccumulator + itemTop
+        left: horizontallyCenteredLeftOffset + accumulatedLeftOffset,
+        top: accumulatedTopOffset + itemTop
       });
-
-      if ((i + 1) % maxItemsPerRow === 0) {
-        topOffsetAccumulator += itemMargin + itemSize;
-      }
     }
   });
 });
