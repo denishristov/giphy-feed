@@ -17,7 +17,7 @@ export const Header: React.FC<Props> = ({ onSearchChange }) => {
 
   return (
     <header className="feed-header">
-      <input placeholder="Search gifs..." onChange={handleChange} />
+      <input placeholder="Search gifs" onChange={handleChange} />
     </header>
   );
 };

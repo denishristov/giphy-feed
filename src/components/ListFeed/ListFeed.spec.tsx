@@ -1,10 +1,10 @@
 import React from "react";
-import { SingleColumnFeed } from "./SingleColumnFeed";
+import { ListFeed } from "./ListFeed";
 import { FakeSearchGiphyAPISync } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
 import { mount } from "enzyme";
 import { GifCard } from "../GifCard/GifCard";
 
-describe(SingleColumnFeed, () => {
+describe(ListFeed, () => {
   const defaultProps = {
     feedKey: "id",
     height: window.innerHeight - 82,
@@ -16,7 +16,7 @@ describe(SingleColumnFeed, () => {
     onApproachingFeedEnd: jest.fn()
   };
 
-  const wrapper = mount(<SingleColumnFeed {...defaultProps} />);
+  const wrapper = mount(<ListFeed {...defaultProps} />);
 
   it("renders", () => {
     expect(wrapper).toExist();

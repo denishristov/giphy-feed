@@ -1,4 +1,4 @@
-import { Image, GifSearchAPIResponse } from "../GifSearchAPI";
+import { ImageMetadata, GifSearchAPIResponse } from "../GifSearchAPI";
 
 export function FakeSearchGiphyAPI(
   searchTerm: string,
@@ -29,7 +29,7 @@ export function FakeSearchGiphyAPISync(
   };
 }
 
-function FakeImage(key: string, searchTerm: string, index: number): Image {
+function FakeImage(key: string, searchTerm: string, index: number): ImageMetadata {
   return {
     url: FakeURL(key, searchTerm, index),
     size: 3400,

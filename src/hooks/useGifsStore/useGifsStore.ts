@@ -1,12 +1,12 @@
 import { useState, useMemo } from "react";
 import { GifsStore } from "./interfaces";
-import { GifSearchAPI, Gif } from "../../api/GifSearchAPI";
+import { GifSearchAPI, GifMetadata } from "../../api/GifSearchAPI";
 
 export function useGifsStore(
   search: GifSearchAPI,
   pagination: number
 ): GifsStore {
-  const [gifs, setGifs] = useState<Array<Gif>>([]);
+  const [gifs, setGifs] = useState<Array<GifMetadata>>([]);
   const [total, setTotal] = useState(-1);
   const [isFetching, setIsFetching] = useState(false);
   const loadedGifs = useMemo(() => new Set<string>(), []);

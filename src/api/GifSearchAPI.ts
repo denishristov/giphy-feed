@@ -5,23 +5,23 @@ export type GifSearchAPI = (
 ) => Promise<GifSearchAPIResponse>;
 
 export interface GifSearchAPIResponse {
-  gifs: Array<Gif>;
+  gifs: Array<GifMetadata>;
   total: number;
 }
 
-export interface Image {
+export interface ImageMetadata {
   url: string;
   height: number;
   width: number;
   size: number;
 }
 
-export interface Gif {
+export interface GifMetadata {
   id: string;
   title: string;
   url: string;
   images: {
-    original: Image;
-    still: Image;
+    original: ImageMetadata;
+    still: ImageMetadata;
   };
 }

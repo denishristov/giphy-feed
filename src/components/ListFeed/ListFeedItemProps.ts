@@ -1,13 +1,13 @@
 import { ListChildComponentProps } from "react-window";
-import { Gif } from "../../api/GifSearchAPI";
+import { GifMetadata } from "../../api/GifSearchAPI";
 
-export interface SingleColumnFeedItemProps extends ListChildComponentProps {
+export interface ListFeedItemProps extends ListChildComponentProps {
   data: GifData;
 }
 
 export interface GifData {
   margin: number;
   width: number;
-  gifs: Array<Gif>;
+  gifs: Array<GifMetadata>;
   loadedGifs: Set<string>;
 }

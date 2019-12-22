@@ -2,18 +2,20 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { Header } from "../Header/Header";
 import { useGifsStore } from "../../hooks/useGifsStore/useGifsStore";
-import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
 import { GifSearchAPI } from "../../api/GifSearchAPI";
+import { GridFeed } from "../GridFeed/GridFeed";
 
-const PAGINATION: number = 40;
+const PAGINATION: number = 300;
 
 const GIF_MARGIN: number = 20;
 
-const GIF_WIDTH: number = Math.min(400, window.innerWidth - 2 * GIF_MARGIN);
+const GIF_MAX_WIDTH: number = 400;
 
 const HEADER_HEIGHT: number = 82;
 
-const FEED_HEIGHT: number = window.innerHeight - HEADER_HEIGHT;
+const FEED_HEIGHT: number = window.innerHeight;
+
+const ITEMS_PER_ROW: number = 3;
 
 interface Props {
   gifSearchApi: GifSearchAPI;
@@ -40,11 +42,13 @@ export const App: React.FC<Props> = ({ gifSearchApi }) => {
   return (
     <div className="app">
       <Header onSearchChange={handleSearch} />
-      <SingleColumnFeed
+      <GridFeed
         feedKey={searchTerm}
+        top={HEADER_HEIGHT}
         height={FEED_HEIGHT}
+        maxItemsPerRow={ITEMS_PER_ROW}
         itemMargin={GIF_MARGIN}
-        itemWidth={GIF_WIDTH}
+        maxItemSize={GIF_MAX_WIDTH}
         approachFeedEndDelta={PAGINATION / 2}
         gifs={gifsStore.gifs}
         loadedGifs={gifsStore.loadedGifs}

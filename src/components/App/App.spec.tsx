@@ -3,7 +3,7 @@ import { shallow } from "enzyme";
 import { App } from "./App";
 import { FakeSearchGiphyAPI } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
 import { Header } from "../Header/Header";
-import { SingleColumnFeed } from "../SingleColumnFeed/SingleColumnFeed";
+import { ListFeed } from "../ListFeed/ListFeed";
 
 describe(App, () => {
   const wrapper = shallow(<App gifSearchApi={FakeSearchGiphyAPI} />);
@@ -17,6 +17,6 @@ describe(App, () => {
   });
 
   it("renders feed", () => {
-    expect(wrapper).toContainMatchingElement(SingleColumnFeed.name);
+    expect(wrapper).toContainMatchingElement(ListFeed.name);
   });
 });

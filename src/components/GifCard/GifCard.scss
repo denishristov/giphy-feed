@@ -1,16 +1,21 @@
 .gif-wrapper {
   display: flex;
-  justify-content: center;
 
   .gif-card {
     position: relative;
-    border-radius: 4px;
     overflow: hidden;
-    background-color: #cfcfcf;
+    background: linear-gradient(45deg, #dfdfdf, whitesmoke);
+    background-size: 200% 200%;
+    font-size: 1rem;
+    animation: wave 0.1s ease infinite;
 
     &:hover {
       .gif-link {
         transform: translateY(0px);
+      }
+
+      .h1 {
+        z-index: 2;
       }
     }
 
@@ -42,7 +47,32 @@
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
+        font-size: inherit;
+        text-decoration: underline;
       }
     }
+
+    h1 {
+      background: #1f1f1f;
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 20px;
+      font-size: inherit;
+      color: white;
+      padding: 4px;
+    }
+  }
+}
+
+@keyframes wave {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
   }
 }
