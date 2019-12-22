@@ -5,9 +5,7 @@
     position: relative;
     overflow: hidden;
     background: linear-gradient(45deg, #dfdfdf, whitesmoke);
-    background-size: 200% 200%;
     font-size: 1rem;
-    animation: wave 3s ease infinite;
 
     &:hover {
       .gif-link {
@@ -62,17 +60,5 @@
       color: white;
       padding: 4px;
     }
-  }
-}
-
-@keyframes wave {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
   }
 }

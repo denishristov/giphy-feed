@@ -1,69 +1,46 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { GifCard, GifCardData } from "../GifCard/GifCard";
 import { VariableSizeGrid, GridOnItemsRenderedProps } from "react-window";
 import { GifMetadata } from "../../api/GifSearchAPI";
 
-interface Props {
+export interface GridFeedProps {
   feedKey: string;
-  itemTop: number;
+  width: number;
   height: number;
-  maxItemsPerRow: number;
-  maxItemSize: number;
+  itemTop: number;
   itemMargin: number;
+  itemSize: number;
+  maxItemsPerRow: number;
   approachFeedEndDelta: number;
+  placeholdersCount: number;
   gifs: Array<GifMetadata>;
-  loadedGifs: Set<string>;
   onApproachingFeedEnd(): void;
 }
 
-export const GridFeed: React.FC<Props> = ({
+export const GridFeed: React.FC<GridFeedProps> = ({
   feedKey,
-  itemTop,
   height,
-  maxItemsPerRow,
-  maxItemSize,
+  width,
+  itemTop,
+  itemSize,
   itemMargin,
+  maxItemsPerRow,
+  placeholdersCount,
   gifs,
-  loadedGifs,
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
   const listRef = useRef<VariableSizeGrid | null>(null);
-
-  const [itemSize, setItemSize] = useState(
-    Math.min(maxItemSize, window.innerWidth - 2 * itemMargin)
+  const itemsPerRow = Math.min(
+    Math.floor(window.innerWidth / getColumnWidth()),
+    maxItemsPerRow
   );
-
-  const [itemsPerRow, setItemsPerRow] = useState(
-    Math.min(Math.floor(window.innerWidth / getColumnWidth()), maxItemsPerRow)
-  );
-
-  const [width, setWidth] = useState(window.innerWidth);
 
   const gifData: GifCardData = {
     width: itemSize,
     margin: itemMargin,
-    gifs,
-    loadedGifs
+    gifs
   };
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-
-    function handleResize(): void {
-      setWidth(window.innerWidth);
-      setItemSize(Math.min(maxItemSize, window.innerWidth - 2 * itemMargin));
-      setItemsPerRow(
-        Math.min(
-          Math.floor(window.innerWidth / getColumnWidth()),
-          maxItemsPerRow
-        )
-      );
-    }
-  }, [itemMargin, maxItemSize, maxItemsPerRow]);
 
   useEffect(() => {
     listRef.current?.scrollToItem({
@@ -80,7 +57,7 @@ export const GridFeed: React.FC<Props> = ({
       width={width}
       height={height}
       columnCount={itemsPerRow}
-      rowCount={Math.ceil(gifs.length / 3) + 30}
+      rowCount={Math.ceil(gifs.length / itemsPerRow) + placeholdersCount}
       estimatedRowHeight={itemSize + itemMargin}
       rowHeight={getRowHeight}
       columnWidth={getColumnWidth}
@@ -90,7 +67,7 @@ export const GridFeed: React.FC<Props> = ({
       {({ columnIndex, rowIndex, style, ...props }) => {
         const index = rowIndex * itemsPerRow + columnIndex;
         const horizontallyCenteredLeftOffset =
-          (window.innerWidth - itemsPerRow * getColumnWidth() + itemMargin) / 2;
+          (width - itemsPerRow * getColumnWidth() + itemMargin) / 2;
 
         const horizontallyCenteredStyle = {
           ...style,

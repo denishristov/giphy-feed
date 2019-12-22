@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { GifsStore } from "./interfaces";
 import { GifSearchAPI, GifMetadata } from "../../api/GifSearchAPI";
 
@@ -9,7 +9,6 @@ export function useGifsStore(
   const [gifs, setGifs] = useState<Array<GifMetadata>>([]);
   const [total, setTotal] = useState(-1);
   const [isFetching, setIsFetching] = useState(false);
-  const loadedGifs = useMemo(() => new Set<string>(), []);
 
   async function fetchNewBatch(searchTerm: string): Promise<void> {
     setGifs([]);
@@ -38,7 +37,6 @@ export function useGifsStore(
 
   return {
     gifs,
-    loadedGifs,
     fetchNewBatch,
     fetchNextBatch
   };

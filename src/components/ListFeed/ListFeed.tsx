@@ -1,53 +1,42 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect } from "react";
 import { GifCard, GifCardData } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
 import { GifMetadata } from "../../api/GifSearchAPI";
 
-interface Props {
+export interface ListFeedProps {
   feedKey: string;
+  width: number;
   height: number;
-  itemWidth: number;
+  itemTop: number;
   itemMargin: number;
+  itemWidth: number;
   approachFeedEndDelta: number;
   gifs: Array<GifMetadata>;
-  loadedGifs: Set<string>;
   onApproachingFeedEnd(): void;
 }
 
-export const ListFeed: React.FC<Props> = ({
+export const ListFeed: React.FC<ListFeedProps> = ({
   feedKey,
   height,
+  width,
+  itemTop,
   itemWidth,
   itemMargin,
   gifs,
-  loadedGifs,
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
   const gifData: GifCardData = {
     width: itemWidth,
     margin: itemMargin,
-    gifs,
-    loadedGifs
+    gifs
   };
 
   const listRef = useRef<VariableSizeList | null>(null);
 
-  const [width, setWidth] = useState(window.innerWidth);
-
-  useEffect(() => {
-    window.addEventListener("resize", handleResize);
-
-    return () => window.removeEventListener("resize", handleResize);
-
-    function handleResize(): void {
-      setWidth(window.innerWidth);
-    }
-  }, []);
-
   useEffect(() => {
     listRef.current?.resetAfterIndex(0, true);
-  }, [feedKey]);
+  }, [feedKey, itemWidth]);
 
   return (
     <VariableSizeList
@@ -60,12 +49,23 @@ export const ListFeed: React.FC<Props> = ({
       useIsScrolling={true}
       onItemsRendered={handleItemsRendered}
     >
-      {GifCard}
+      {({ style, ...props }) => {
+        const horizontallyCenteredLeftOffset = (width - itemWidth) / 2;
+
+        const horizontallyCenteredStyle = {
+          ...style,
+          top: Number(style.top) + itemTop,
+          left: Number(style.left) + horizontallyCenteredLeftOffset
+        };
+
+        return <GifCard style={horizontallyCenteredStyle} {...props} />;
+      }}
     </VariableSizeList>
   );
 
   function calculateItemHeight(index: number) {
     const gif = gifs[index];
+
     const { width, height } = gif.images.still;
 
     return Math.round((height * itemWidth) / width) + itemMargin;

@@ -4,7 +4,7 @@ import { shallow } from "enzyme";
 
 describe(Header, () => {
   const handleSearch = jest.fn();
-  const wrapper = shallow(<Header onSearchChange={handleSearch} />);
+  const wrapper = shallow(<Header height={66} onSearchChange={handleSearch} />);
 
   it("renders", () => {
     expect(wrapper).toExist();

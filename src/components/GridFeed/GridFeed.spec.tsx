@@ -14,12 +14,13 @@ describe(GridFeed, () => {
       feedKey={"id"}
       itemTop={82}
       height={window.innerHeight}
-      maxItemSize={itemWidth}
+      width={window.innerWidth}
+      itemSize={itemWidth}
       maxItemsPerRow={3}
       itemMargin={itemMargin}
       approachFeedEndDelta={5}
+      placeholdersCount={30}
       gifs={gifs}
-      loadedGifs={new Set<string>()}
       onApproachingFeedEnd={jest.fn()}
     />
   );

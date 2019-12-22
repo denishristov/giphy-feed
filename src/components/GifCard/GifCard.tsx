@@ -12,12 +12,11 @@ export interface GifCardData {
   margin: number;
   width: number;
   gifs: Array<GifMetadata>;
-  loadedGifs: Set<string>;
 }
 
 export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
   const {
-    data: { gifs, loadedGifs, width, margin },
+    data: { gifs, width, margin },
     style,
     index,
     isScrolling
@@ -30,11 +29,7 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
 
   const gifMetadata = gifs[index];
 
-  console.log(loadedGifs.has(gifMetadata?.images.original.url));
-  const [hasLoadedOriginal, setHasLoadedOriginal] = useState(
-    loadedGifs.has(gifMetadata?.images.original.url)
-  );
-
+  const [hasLoadedOriginal, setHasLoadedOriginal] = useState(false);
   const [hasStoppedScrolling, setHasStoppedScrolling] = useState(
     !!gifMetadata && !isScrolling
   );
@@ -68,12 +63,12 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
         height={Number(style.height) - margin}
         src={hasLoadedOriginal ? original.url : still.url}
       />
-      {!hasLoadedOriginal && (
+      {hasStoppedScrolling && !hasLoadedOriginal && (
         <img
           className="dummy"
           alt={title}
           src={original.url}
-          onLoad={handleLoadedGif}
+          onLoad={handleLoadedOriginal}
         />
       )}
       {title && (
@@ -84,8 +79,7 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
     </GifCardPlaceholder>
   );
 
-  function handleLoadedGif(): void {
+  function handleLoadedOriginal(): void {
     setHasLoadedOriginal(true);
-    // loadedGifs.add(original.url);
   }
 }, areEqual);

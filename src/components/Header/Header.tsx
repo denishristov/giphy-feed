@@ -3,12 +3,13 @@ import "./Header.scss";
 import { debounce } from "debounce";
 
 interface Props {
+  height: number;
   onSearchChange(value: string): void;
 }
 
 const DEBOUNCE_WAIT: number = 300;
 
-export const Header: React.FC<Props> = ({ onSearchChange }) => {
+export const Header: React.FC<Props> = ({ height, onSearchChange }) => {
   const debouncedSearchChangeHandler = debounce(onSearchChange, DEBOUNCE_WAIT);
 
   function handleChange(event: React.ChangeEvent<HTMLInputElement>): void {
@@ -16,7 +17,7 @@ export const Header: React.FC<Props> = ({ onSearchChange }) => {
   }
 
   return (
-    <header className="feed-header">
+    <header className="feed-header" style={{ height }}>
       <input placeholder="Search gifs" onChange={handleChange} />
     </header>
   );
