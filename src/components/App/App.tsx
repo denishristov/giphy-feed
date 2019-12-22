@@ -5,7 +5,7 @@ import { useGifsStore } from "../../hooks/useGifsStore/useGifsStore";
 import { GifSearchAPI } from "../../api/GifSearchAPI";
 import { GridFeed } from "../GridFeed/GridFeed";
 
-const PAGINATION: number = 300;
+const PAGINATION: number = 60;
 
 const GIF_MARGIN: number = 12;
 
@@ -44,7 +44,7 @@ export const App: React.FC<Props> = ({ gifSearchApi }) => {
       <Header onSearchChange={handleSearch} />
       <GridFeed
         feedKey={searchTerm}
-        top={HEADER_HEIGHT}
+        itemTop={HEADER_HEIGHT}
         height={FEED_HEIGHT}
         maxItemsPerRow={ITEMS_PER_ROW}
         itemMargin={GIF_MARGIN}

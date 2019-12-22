@@ -5,25 +5,33 @@ import { mount } from "enzyme";
 import { GifCard } from "../GifCard/GifCard";
 
 describe(GridFeed, () => {
-  const defaultProps = {
-    feedKey: "id",
-    height: window.innerHeight - 82,
-    itemWidth: 400,
-    itemMargin: 20,
-    approachFeedEndDelta: 5,
-    gifs: FakeSearchGiphyAPISync("kitty", 0, 20).gifs,
-    loadedGifs: new Set<string>(),
-    onApproachingFeedEnd: jest.fn()
-  };
+  const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 20);
+  const itemWidth = 400;
+  const itemMargin = 12;
 
-  const wrapper = mount(<GridFeed {...defaultProps} />);
+  const component = (
+    <GridFeed
+      feedKey={"id"}
+      itemTop={82}
+      height={window.innerHeight}
+      maxItemSize={itemWidth}
+      maxItemsPerRow={3}
+      itemMargin={itemMargin}
+      approachFeedEndDelta={5}
+      gifs={gifs}
+      loadedGifs={new Set<string>()}
+      onApproachingFeedEnd={jest.fn()}
+    />
+  );
+
+  const wrapper = mount(component);
 
   it("renders", () => {
     expect(wrapper).toExist();
   });
 
-  it("renders at least 1 gif", () => {
-    expect(wrapper.find(GifCard).length).toBeGreaterThanOrEqual(1);
+  it("renders at least 3 gifs", () => {
+    expect(wrapper.find(GifCard).length).toBeGreaterThanOrEqual(3);
   });
 
   it("passes correctly scaled height to children", () => {
@@ -31,12 +39,11 @@ describe(GridFeed, () => {
       .find(GifCard)
       .getElements()
       .entries()) {
-      const { height, width } = defaultProps.gifs[i].images.still;
+      const { height, width } = gifs[i].images.still;
 
       /* Correctly scaled means that the aspect ratio is left unchanged. */
       const appropriateHeight =
-        (Number(height) * defaultProps.itemWidth) / Number(width) +
-        defaultProps.itemMargin;
+        (Number(height) * itemWidth) / Number(width) + itemMargin;
 
       expect(gif.props.style.height).toBe(appropriateHeight);
     }

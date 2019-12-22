@@ -3,8 +3,7 @@
   justify-content: center;
   width: 100vw;
   position: absolute;
-  background-color: #1f1f1fee;
-  backdrop-filter: blur(16px);
+  background-color: #1f1f1f;
   top: 0;
   z-index: 1;
   pointer-events: none;
@@ -17,13 +16,9 @@
     width: 376px;
     padding: 0 12px;
     font-size: 1.2rem;
-    background-color: #5f5f5faa;
+    background-color: #3f3f3f;
     color: white;
     pointer-events: all;
-
-    &::placeholder {
-      color: white;
-    }
   }
 }
 

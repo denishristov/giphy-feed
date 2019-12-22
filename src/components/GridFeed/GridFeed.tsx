@@ -1,13 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useRef, useEffect, useState } from "react";
-import { GifCard } from "../GifCard/GifCard";
+import { GifCard, GifCardData } from "../GifCard/GifCard";
 import { VariableSizeGrid, GridOnItemsRenderedProps } from "react-window";
 import { GifMetadata } from "../../api/GifSearchAPI";
-import { GifData } from "../ListFeed/ListFeedItemProps";
 
 interface Props {
   feedKey: string;
-  top: number;
+  itemTop: number;
   height: number;
   maxItemsPerRow: number;
   maxItemSize: number;
@@ -20,7 +19,7 @@ interface Props {
 
 export const GridFeed: React.FC<Props> = ({
   feedKey,
-  top,
+  itemTop,
   height,
   maxItemsPerRow,
   maxItemSize,
@@ -42,7 +41,7 @@ export const GridFeed: React.FC<Props> = ({
 
   const [width, setWidth] = useState(window.innerWidth);
 
-  const gifData: GifData = {
+  const gifData: GifCardData = {
     width: itemSize,
     margin: itemMargin,
     gifs,
@@ -90,13 +89,13 @@ export const GridFeed: React.FC<Props> = ({
     >
       {({ columnIndex, rowIndex, style, ...props }) => {
         const index = rowIndex * itemsPerRow + columnIndex;
+        const horizontallyCenteredLeftOffset =
+          (window.innerWidth - itemsPerRow * getColumnWidth() + itemMargin) / 2;
+
         const horizontallyCenteredStyle = {
           ...style,
-          top: Number(style.top) + top,
-          left:
-            Number(style.left) +
-            (window.innerWidth - itemsPerRow * getColumnWidth() + itemMargin) /
-              2
+          top: Number(style.top) + itemTop,
+          left: Number(style.left) + horizontallyCenteredLeftOffset
         };
 
         return (
@@ -118,12 +117,10 @@ export const GridFeed: React.FC<Props> = ({
     overscanRowStopIndex,
     overscanColumnStopIndex
   }: GridOnItemsRenderedProps): void {
-    if (
-      overscanRowStopIndex * itemsPerRow +
-        overscanColumnStopIndex +
-        approachFeedEndDelta >=
-      gifs.length
-    ) {
+    const overscanStopIndex =
+      overscanRowStopIndex * itemsPerRow + overscanColumnStopIndex;
+
+    if (overscanStopIndex + approachFeedEndDelta >= gifs.length) {
       onApproachingFeedEnd();
     }
   }

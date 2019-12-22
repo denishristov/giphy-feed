@@ -1,7 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
-import { GifCard } from "../GifCard/GifCard";
+import { GifCard, GifCardData } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
-import { GifData } from "./ListFeedItemProps";
 import { GifMetadata } from "../../api/GifSearchAPI";
 
 interface Props {
@@ -25,7 +24,7 @@ export const ListFeed: React.FC<Props> = ({
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
-  const gifData: GifData = {
+  const gifData: GifCardData = {
     width: itemWidth,
     margin: itemMargin,
     gifs,
