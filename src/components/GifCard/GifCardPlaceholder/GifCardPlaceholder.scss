@@ -4,11 +4,13 @@
   .gif-card {
     position: relative;
     overflow: hidden;
-    background: linear-gradient(45deg, #dfdfdf, whitesmoke);
+    height: 100%;
+    margin-top: auto;
     font-size: 1rem;
+    background: linear-gradient(45deg, #dfdfdf, whitesmoke);
 
     h1 {
-      background: #1f1f1f;
+      background: #1f1f1fee;
       position: absolute;
       top: 0;
       right: 0;

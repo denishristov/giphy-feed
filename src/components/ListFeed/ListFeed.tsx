@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { GifCard, GifCardData } from "../GifCard/GifCard";
+import { GifCard } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
 import { FeedProps } from "../../types/FeedProps";
 
@@ -14,12 +14,6 @@ export const ListFeed: React.FC<FeedProps> = ({
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
-  const gifData: GifCardData = {
-    width: itemWidth,
-    margin: itemMargin,
-    gifs
-  };
-
   const listRef = useRef<VariableSizeList | null>(null);
 
   useEffect(() => {
@@ -29,7 +23,7 @@ export const ListFeed: React.FC<FeedProps> = ({
   return (
     <VariableSizeList
       ref={listRef}
-      itemData={gifData}
+      itemData={gifs}
       height={height}
       width={width}
       itemCount={gifs.length}
@@ -39,11 +33,13 @@ export const ListFeed: React.FC<FeedProps> = ({
     >
       {({ style, ...props }) => {
         const horizontallyCenteredLeftOffset = (width - itemWidth) / 2;
+        const itemTopMargin = (props.index + 1) * itemMargin;
 
         const horizontallyCenteredStyle = {
           ...style,
-          top: Number(style.top) + itemTop,
-          left: Number(style.left) + horizontallyCenteredLeftOffset
+          top: Number(style.top) + itemTop + itemTopMargin,
+          left: horizontallyCenteredLeftOffset,
+          width: itemWidth
         };
 
         return <GifCard style={horizontallyCenteredStyle} {...props} />;
@@ -53,10 +49,10 @@ export const ListFeed: React.FC<FeedProps> = ({
 
   function calculateItemHeight(index: number) {
     const gif = gifs[index];
-
     const { width, height } = gif.images.still;
 
-    return Math.round((height * itemWidth) / width) + itemMargin;
+    /* Scaled so the aspect ratio is left unchanged. */
+    return Math.round((height * itemWidth) / width);
   }
 
   function handleItemsRendered({

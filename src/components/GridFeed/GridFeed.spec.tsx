@@ -6,17 +6,19 @@ import { GifCard } from "../GifCard/GifCard";
 
 describe(GridFeed, () => {
   const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 20);
-  const itemWidth = 400;
+  const itemSize = 200;
   const itemMargin = 12;
+  const itemTop = 82;
+  const maxItemsPerRow = 3;
 
   const component = (
     <GridFeed
       feedKey={"id"}
-      itemTop={82}
+      itemTop={itemTop}
       height={window.innerHeight}
       width={window.innerWidth}
-      itemWidth={itemWidth}
-      maxItemsPerRow={3}
+      itemWidth={itemSize}
+      maxItemsPerRow={maxItemsPerRow}
       itemMargin={itemMargin}
       approachFeedEndDelta={5}
       placeholdersCount={30}
@@ -35,18 +37,32 @@ describe(GridFeed, () => {
     expect(wrapper.find(GifCard).length).toBeGreaterThanOrEqual(3);
   });
 
-  it("passes correctly scaled height to children", () => {
+  it("layouts items", () => {
+    let topOffsetAccumulator = itemMargin;
+
+    const horizontallyCenteredLeftOffset =
+      (window.innerWidth -
+        maxItemsPerRow * (itemMargin + itemSize) -
+        itemMargin) /
+      2;
+
     for (const [i, gif] of wrapper
       .find(GifCard)
       .getElements()
       .entries()) {
-      const { height, width } = gifs[i].images.still;
+      expect(gif.props.style).toMatchObject({
+        height: itemSize,
+        width: itemSize,
+        left:
+          horizontallyCenteredLeftOffset +
+          (i % maxItemsPerRow) * itemSize +
+          ((i % maxItemsPerRow) + 1) * itemMargin,
+        top: topOffsetAccumulator + itemTop
+      });
 
-      /* Correctly scaled means that the aspect ratio is left unchanged. */
-      const appropriateHeight =
-        (Number(height) * itemWidth) / Number(width) + itemMargin;
-
-      expect(gif.props.style.height).toBe(appropriateHeight);
+      if ((i + 1) % maxItemsPerRow === 0) {
+        topOffsetAccumulator += itemMargin + itemSize;
+      }
     }
   });
 });

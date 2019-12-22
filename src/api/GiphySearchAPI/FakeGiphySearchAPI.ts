@@ -36,7 +36,7 @@ function FakeImage(
 ): ImageMetadata {
   return {
     url: FakeURL(key, searchTerm, index),
-    height: 200,
+    height: 300,
     width: 200
   };
 }

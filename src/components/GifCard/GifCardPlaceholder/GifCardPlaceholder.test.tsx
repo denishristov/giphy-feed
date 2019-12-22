@@ -9,7 +9,7 @@ describe(GifCardPlaceholder, () => {
         width: 300,
         height: 200
       }}
-      gifCardStyle={{ marginTop: 12, width: 100 }}
+      // gifCardStyle={{ marginTop: 12, width: 100 }}
       index={0}
     />
   );

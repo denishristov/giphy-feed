@@ -2,12 +2,12 @@ import Axios from "axios";
 import { GifSearchAPI, GifSearchAPIResponse } from "../../types/GifSearchAPI";
 import { GiphySearchResponse, GiphySearchAPIConfig } from "./interfaces";
 
+const GIPHY_SEARCH_ENDPOINT: string = "https://api.giphy.com/v1/gifs/search";
+
 export function createGiphySearchAPI({
   webpOverGif,
   ...config
 }: GiphySearchAPIConfig): GifSearchAPI {
-  const GIPHY_SEARCH_ENDPOINT: string = "https://api.giphy.com/v1/gifs/search";
-
   return async (
     searchTerm: string,
     offset: number,
@@ -25,6 +25,10 @@ export function createGiphySearchAPI({
     });
 
     const gifs = data
+      /* 
+        Being extra cautious here because the API might return 
+        data with 0 height which is not renderable. 
+      */
       .filter(
         gif =>
           Number(gif.images.fixed_width_small_still.height) &&

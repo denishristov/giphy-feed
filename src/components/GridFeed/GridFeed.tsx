@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { GifCard, GifCardData } from "../GifCard/GifCard";
+import { GifCard } from "../GifCard/GifCard";
 import { VariableSizeGrid, GridOnItemsRenderedProps } from "react-window";
 import { FeedProps } from "../../types/FeedProps";
 
@@ -30,12 +30,6 @@ export const GridFeed: React.FC<GridFeedProps> = ({
     maxItemsPerRow
   );
 
-  const gifData: GifCardData = {
-    width: itemSize,
-    margin: itemMargin,
-    gifs
-  };
-
   useEffect(() => {
     listRef.current?.scrollToItem({
       columnIndex: 0,
@@ -47,12 +41,13 @@ export const GridFeed: React.FC<GridFeedProps> = ({
   return (
     <VariableSizeGrid
       ref={listRef}
-      itemData={gifData}
+      itemData={gifs}
       width={width}
       height={height}
       columnCount={itemsPerRow}
       rowCount={Math.ceil(gifs.length / itemsPerRow) + placeholdersCount}
-      estimatedRowHeight={itemSize + itemMargin}
+      estimatedRowHeight={itemSize}
+      estimatedColumnWidth={itemSize}
       rowHeight={getRowAndColumnSize}
       columnWidth={getRowAndColumnSize}
       useIsScrolling={true}
@@ -61,12 +56,17 @@ export const GridFeed: React.FC<GridFeedProps> = ({
       {({ columnIndex, rowIndex, style, ...props }) => {
         const index = rowIndex * itemsPerRow + columnIndex;
         const horizontallyCenteredLeftOffset =
-          (width - itemsPerRow * getRowAndColumnSize() + itemMargin) / 2;
+          (width - itemsPerRow * (itemMargin + itemSize) - itemMargin) / 2;
+
+        const itemLeftMargin = (columnIndex + 1) * itemMargin;
+        const itemTopMargin = (rowIndex + 1) * itemMargin;
 
         const horizontallyCenteredStyle = {
           ...style,
-          top: Number(style.top) + itemTop,
-          left: Number(style.left) + horizontallyCenteredLeftOffset
+          width: itemWidth,
+          top: Number(style.top) + itemTop + itemTopMargin,
+          left:
+            Number(style.left) + horizontallyCenteredLeftOffset + itemLeftMargin
         };
 
         return (
@@ -77,7 +77,7 @@ export const GridFeed: React.FC<GridFeedProps> = ({
   );
 
   function getRowAndColumnSize(): number {
-    return itemSize + itemMargin;
+    return itemSize;
   }
 
   function handleItemsRendered({

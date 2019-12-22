@@ -11,11 +11,7 @@ describe(GifCard.name, () => {
         width: 300,
         height: 200
       }}
-      data={{
-        width: 400,
-        margin: 200,
-        gifs
-      }}
+      data={gifs}
       index={0}
       isScrolling={false}
     />
@@ -56,11 +52,7 @@ describe(GifCard.name, () => {
           width: 300,
           height: 200
         }}
-        data={{
-          width: 400,
-          margin: 200,
-          gifs
-        }}
+        data={gifs}
         index={0}
         isScrolling={true}
       />
