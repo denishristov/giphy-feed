@@ -7,11 +7,11 @@ import { GridFeed } from "../GridFeed/GridFeed";
 
 const PAGINATION: number = 300;
 
-const GIF_MARGIN: number = 20;
+const GIF_MARGIN: number = 12;
 
 const GIF_MAX_WIDTH: number = 400;
 
-const HEADER_HEIGHT: number = 82;
+const HEADER_HEIGHT: number = 66;
 
 const FEED_HEIGHT: number = window.innerHeight;
 

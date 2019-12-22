@@ -3,7 +3,7 @@
   justify-content: center;
   width: 100vw;
   position: absolute;
-  background-color: #1f1f1fbb;
+  background-color: #1f1f1fee;
   backdrop-filter: blur(16px);
   top: 0;
   z-index: 1;
@@ -13,11 +13,11 @@
     outline: none;
     border: none;
     height: 42px;
-    margin: 20px 0;
-    width: 360px;
-    padding: 0 20px;
+    margin: 12px 0;
+    width: 376px;
+    padding: 0 12px;
     font-size: 1.2rem;
-    background-color: #7c7c7caa;
+    background-color: #5f5f5faa;
     color: white;
     pointer-events: all;
 
@@ -29,6 +29,6 @@
 
 @media only screen and (max-width: 440px) {
   .feed-header input {
-    width: calc(100vw - 4 * 20px);
+    width: calc(100vw - 4 * 12px);
   }
 }
