@@ -1,60 +1,40 @@
-.gif-wrapper {
-  display: flex;
-
-  .gif-card {
-    position: relative;
-    overflow: hidden;
-    background: linear-gradient(45deg, #dfdfdf, whitesmoke);
-    font-size: 1rem;
-
-    &:hover {
-      .gif-link {
-        transform: translateY(0px);
-      }
-    }
-
-    .dummy {
-      display: none;
-    }
-
-    .gif {
-      object-fit: cover;
-    }
-
+.gif-card {
+  &:hover {
     .gif-link {
-      $height: 100px;
-      height: $height;
-      display: flex;
-      align-items: flex-end;
-      position: absolute;
-      width: 100%;
-      bottom: 0px;
-      left: 0px;
-      background: linear-gradient(#1f1f1f00, #1f1f1f88);
-      transform: translateY($height);
-      transition: 0.2s ease transform;
-
-      a {
-        display: block;
-        padding: 12px;
-        color: white;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-size: inherit;
-        text-decoration: underline;
-      }
+      transform: translateY(0px);
     }
+  }
 
-    h1 {
-      background: #1f1f1f;
-      position: absolute;
-      top: 0;
-      right: 0;
-      margin: 12px;
-      font-size: inherit;
+  .background-fetcher {
+    display: none;
+  }
+
+  .gif {
+    object-fit: cover;
+  }
+
+  .gif-link {
+    $height: 100px;
+    height: $height;
+    display: flex;
+    align-items: flex-end;
+    position: absolute;
+    width: 100%;
+    bottom: 0px;
+    left: 0px;
+    background: linear-gradient(#1f1f1f00, #1f1f1f88);
+    transform: translateY($height);
+    transition: 0.2s ease transform;
+
+    a {
+      display: block;
+      padding: 12px;
       color: white;
-      padding: 4px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: inherit;
+      text-decoration: underline;
     }
   }
 }

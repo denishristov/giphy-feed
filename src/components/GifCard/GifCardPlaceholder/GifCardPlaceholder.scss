@@ -1,0 +1,21 @@
+.gif-wrapper {
+  display: flex;
+
+  .gif-card {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(45deg, #dfdfdf, whitesmoke);
+    font-size: 1rem;
+
+    h1 {
+      background: #1f1f1f;
+      position: absolute;
+      top: 0;
+      right: 0;
+      margin: 12px;
+      font-size: inherit;
+      color: white;
+      padding: 4px;
+    }
+  }
+}

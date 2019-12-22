@@ -1,8 +1,7 @@
 import React from "react";
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import { GifCard } from "./GifCard";
 import { FakeSearchGiphyAPISync } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
-import { act } from "@testing-library/react-hooks";
 
 describe(GifCard.name, () => {
   const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 20);
@@ -15,17 +14,22 @@ describe(GifCard.name, () => {
       data={{
         width: 400,
         margin: 200,
-        gifs,
-        loadedGifs: new Set()
+        gifs
       }}
       index={0}
       isScrolling={false}
     />
   );
 
-  const wrapper = mount(component);
+  const wrapper = shallow(component);
 
   it("renders", () => {
+    expect(wrapper).toExist();
+  });
+
+  it("renders without metadata", () => {
+    const wrapper = shallow(component);
+    wrapper.setProps({ index: -1 });
     expect(wrapper).toExist();
   });
 
@@ -34,38 +38,39 @@ describe(GifCard.name, () => {
   });
 
   it("renders gif link", () => {
-    expect(wrapper.find("a").getDOMNode<HTMLAnchorElement>().href).toBe(
-      gifs[0].url
-    );
+    expect(wrapper.find("a").props().href).toBe(gifs[0].url);
+    expect(wrapper.find("a").text()).toBe(gifs[0].title);
   });
 
-  it("uses original image src initially", () => {
-    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
+  it("renders original and still img sources", () => {
+    expect(wrapper.find(".gif").props().src).toBe(gifs[0].images.still.url);
+    expect(wrapper.find(".background-fetcher").props().src).toBe(
       gifs[0].images.original.url
     );
   });
 
-  it("uses small image src when scrolling", () => {
-    wrapper.setProps({ isScrolling: true });
-    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
-      gifs[0].images.still.url
+  it("does not render background fetcher until it has stopped scrolling", () => {
+    const wrapper = mount(
+      <GifCard
+        style={{
+          width: 300,
+          height: 200
+        }}
+        data={{
+          width: 400,
+          margin: 200,
+          gifs
+        }}
+        index={0}
+        isScrolling={true}
+      />
     );
-  });
 
-  it("uses original image src when scrolling if it has already been fetched", () => {
-    const wrapper = mount(component);
+    expect(wrapper.find(".background-fetcher")).not.toExist();
 
-    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
-      gifs[0].images.original.url
-    );
+    wrapper.setProps({ isScrolling: false });
+    wrapper.update();
 
-    act(() => {
-      wrapper.find(".gif").simulate("load");
-    });
-
-    wrapper.setProps({ isScrolling: true });
-    expect(wrapper.find(".gif").getDOMNode<HTMLImageElement>().src).toBe(
-      gifs[0].images.original.url
-    );
+    expect(wrapper.find(".background-fetcher")).toExist();
   });
 });

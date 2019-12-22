@@ -4,23 +4,54 @@ import { shallow } from "enzyme";
 
 describe(Header, () => {
   const handleSearch = jest.fn();
+  const handleToggle = jest.fn();
+
   const wrapper = shallow(
-    <Header height={66} onSearchTermChange={handleSearch} />
+    <Header
+      height={66}
+      isUsingGridFeed={true}
+      isAbleToDisplayGridFeed={true}
+      onChangeUsingGridFeed={handleToggle}
+      onSearchTermChange={handleSearch}
+    />
   );
 
   it("renders", () => {
     expect(wrapper).toExist();
   });
 
-  it("renders search input", () => {
-    expect(wrapper.find('input[placeholder="Search gifs"]')).toExist();
+  it("sets provided height", () => {
+    expect(wrapper.find("header").props().style?.height).toBe(66);
   });
 
-  it("calls onSearchChange on input change", () => {
-    wrapper.find("input").simulate("change", {
-      target: { value: "test" }
+  describe("search", () => {
+    it("renders search input", () => {
+      expect(wrapper.find('input[placeholder="Search gifs"]')).toExist();
     });
 
-    expect(handleSearch).toHaveBeenCalledWith("test");
+    it("calls onSearchChange on input change", () => {
+      wrapper.find('input[placeholder="Search gifs"]').simulate("change", {
+        target: { value: "test" }
+      });
+
+      expect(handleSearch).toHaveBeenCalledWith("test");
+    });
+  });
+
+  describe("feed type toggle", () => {
+    it("renders input checkbox for toggling between feed types", () => {
+      expect(wrapper.find('input[type="checkbox"]')).toExist();
+    });
+
+    it("passes provided value for checkbox", () => {
+      expect(wrapper.find('input[type="checkbox"]').props().checked).toBe(true);
+    });
+
+    it("calls onChangeUsingGridFeed when the input emits change", () => {
+      wrapper
+        .find('input[type="checkbox"]')
+        .simulate("change", { target: { checked: false } });
+      expect(handleToggle).toHaveBeenCalledWith(false);
+    });
   });
 });

@@ -27,7 +27,7 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
     width
   };
 
-  const gifMetadata = gifs[index];
+  const gifMetadata: GifMetadata | undefined = gifs[index];
 
   const [hasLoadedOriginal, setHasLoadedOriginal] = useState(false);
 
@@ -40,7 +40,8 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
     if (gifMetadata !== undefined && !isScrolling && !hasStoppedScrolling) {
       setHasStoppedScrolling(true);
     }
-  }, [gifMetadata, hasStoppedScrolling, isScrolling]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gifMetadata, isScrolling]);
 
   if (gifMetadata === undefined) {
     return (
@@ -56,7 +57,7 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
     title,
     url,
     images: { original, still }
-  }: GifMetadata = gifMetadata;
+  } = gifMetadata;
 
   return (
     <GifCardPlaceholder index={index} style={style} gifCardStyle={gifCardStyle}>
@@ -69,7 +70,7 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
       />
       {hasStoppedScrolling && !hasLoadedOriginal && (
         <img
-          className="dummy"
+          className="background-fetcher"
           alt={title}
           src={original.url}
           onLoad={handleLoadedOriginal}

@@ -1,4 +1,5 @@
 import React, { CSSProperties, ReactNode } from "react";
+import "./GifCardPlaceholder.scss";
 
 export interface GifPlaceholderProps {
   index: number;
