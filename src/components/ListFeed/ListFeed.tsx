@@ -1,21 +1,9 @@
 import React, { useRef, useEffect } from "react";
 import { GifCard, GifCardData } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
-import { GifMetadata } from "../../api/GifSearchAPI";
+import { FeedProps } from "../../types/FeedProps";
 
-export interface ListFeedProps {
-  feedKey: string;
-  width: number;
-  height: number;
-  itemTop: number;
-  itemMargin: number;
-  itemWidth: number;
-  approachFeedEndDelta: number;
-  gifs: Array<GifMetadata>;
-  onApproachingFeedEnd(): void;
-}
-
-export const ListFeed: React.FC<ListFeedProps> = ({
+export const ListFeed: React.FC<FeedProps> = ({
   feedKey,
   height,
   width,

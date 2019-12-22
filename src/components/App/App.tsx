@@ -2,40 +2,40 @@ import React, { useState, useEffect } from "react";
 import "./App.scss";
 import { Header } from "../Header/Header";
 import { useGifsStore } from "../../hooks/useGifsStore/useGifsStore";
-import { GifSearchAPI } from "../../api/GifSearchAPI";
-import { GridFeed, GridFeedProps } from "../GridFeed/GridFeed";
+import { GifSearchAPI } from "../../types/GifSearchAPI";
+import { GridFeed } from "../GridFeed/GridFeed";
 import { useWindowSize } from "../../hooks/useWindowSize/useWindowSize";
-import { ListFeed, ListFeedProps } from "../ListFeed/ListFeed";
-import { INITIAL_SEARCH_TERM, LIST_VIEW_THRESHOLD } from "./UIConfig";
+import { ListFeed } from "../ListFeed/ListFeed";
+import { FeedProps } from "../../types/FeedProps";
 import {
-  PAGINATION,
+  PAGINATION_OFFSET,
   GIF_MAX_WIDTH,
   GIF_MARGIN,
   HEADER_HEIGHT,
-  MAX_ITEMS_PER_ROW
+  MAX_ITEMS_PER_ROW,
+  INITIAL_SEARCH_TERM,
+  LIST_VIEW_THRESHOLD
 } from "./UIConfig";
 
 interface AppProps {
   gifSearchApi: GifSearchAPI;
 }
 
-type FeedCommonProps = Omit<ListFeedProps, "itemWidth"> &
-  Omit<GridFeedProps, "itemSize" | "maxItemsPerRow" | "placeholdersCount">;
-
 export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
   const { width, height } = useWindowSize();
-  const gifsStore = useGifsStore(gifSearchApi, PAGINATION);
   const [searchTerm, setSearchTerm] = useState(INITIAL_SEARCH_TERM);
+  const gifsStore = useGifsStore(gifSearchApi, PAGINATION_OFFSET);
 
   const itemWidth = Math.min(GIF_MAX_WIDTH, width - 2 * GIF_MARGIN);
 
-  const commonProps: FeedCommonProps = {
+  const feedProps: FeedProps = {
     feedKey: searchTerm,
     width: width,
     height: height,
     itemTop: HEADER_HEIGHT,
+    itemWidth,
     itemMargin: GIF_MARGIN,
-    approachFeedEndDelta: PAGINATION / 2,
+    approachFeedEndDelta: PAGINATION_OFFSET / 2,
     gifs: gifsStore.gifs,
     onApproachingFeedEnd: handleApproachingFeedEnd
   };
@@ -49,13 +49,12 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
     <div className="app">
       <Header height={HEADER_HEIGHT} onSearchChange={handleSearch} />
       {width < LIST_VIEW_THRESHOLD ? (
-        <ListFeed itemWidth={itemWidth} {...commonProps} />
+        <ListFeed {...feedProps} />
       ) : (
         <GridFeed
-          itemSize={itemWidth}
-          placeholdersCount={PAGINATION / 2}
+          placeholdersCount={PAGINATION_OFFSET}
           maxItemsPerRow={MAX_ITEMS_PER_ROW}
-          {...commonProps}
+          {...feedProps}
         />
       )}
     </div>

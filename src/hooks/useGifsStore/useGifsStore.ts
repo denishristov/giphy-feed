@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { GifsStore } from "./interfaces";
-import { GifSearchAPI, GifMetadata } from "../../api/GifSearchAPI";
+import { GifSearchAPI, GifMetadata } from "../../types/GifSearchAPI";
 
 export function useGifsStore(
   search: GifSearchAPI,

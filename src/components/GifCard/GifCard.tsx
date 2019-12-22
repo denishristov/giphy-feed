@@ -1,8 +1,8 @@
 import React, { memo, useState } from "react";
 import { areEqual, ListChildComponentProps } from "react-window";
-import "./GifCard.scss";
-import { GifMetadata } from "../../api/GifSearchAPI";
+import { GifMetadata } from "../../types/GifSearchAPI";
 import { GifCardPlaceholder } from "./GifCardPlaceholder/GifCardPlaceholder";
+import "./GifCard.scss";
 
 export interface GifCardProps extends ListChildComponentProps {
   data: GifCardData;
@@ -44,6 +44,7 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
     );
   }
 
+  /* We only care about scrolling if we have the metadata to render. */
   if (!isScrolling && !hasStoppedScrolling) {
     setHasStoppedScrolling(true);
   }

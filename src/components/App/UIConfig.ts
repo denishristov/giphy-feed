@@ -1,4 +1,4 @@
-export const PAGINATION: number = 30;
+export const PAGINATION_OFFSET: number = 30;
 
 export const GIF_MARGIN: number = 12;
 

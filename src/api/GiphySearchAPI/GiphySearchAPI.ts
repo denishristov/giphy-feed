@@ -1,12 +1,11 @@
 import Axios from "axios";
-import { GifSearchAPI, GifSearchAPIResponse } from "../GifSearchAPI";
+import { GifSearchAPI, GifSearchAPIResponse } from "../../types/GifSearchAPI";
 import { GiphySearchResponse, GiphySearchAPIConfig } from "./interfaces";
 
-const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
-
-export function createGiphySearchAPI(
-  config: GiphySearchAPIConfig
-): GifSearchAPI {
+export function createGiphySearchAPI({
+  webpOverGif,
+  ...config
+}: GiphySearchAPIConfig): GifSearchAPI {
   const GIPHY_SEARCH_ENDPOINT: string = "https://api.giphy.com/v1/gifs/search";
 
   return async (
@@ -37,16 +36,16 @@ export function createGiphySearchAPI(
         url: gif.url,
         images: {
           original: {
-            url: isSafari ? gif.images.original.url : gif.images.original.webp,
+            url: webpOverGif
+              ? gif.images.original.webp
+              : gif.images.original.url,
             height: Number(gif.images.original.height),
-            width: Number(gif.images.original.width),
-            size: Number(gif.images.original.size)
+            width: Number(gif.images.original.width)
           },
           still: {
             url: gif.images.fixed_width_small_still.url,
             height: Number(gif.images.fixed_width_small_still.height),
-            width: Number(gif.images.fixed_width_small_still.width),
-            size: Number(gif.images.fixed_width_small_still.size)
+            width: Number(gif.images.fixed_width_small_still.width)
           }
         }
       }));

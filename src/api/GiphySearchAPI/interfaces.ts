@@ -2,6 +2,7 @@ export interface GiphySearchAPIConfig {
   apiKey: string;
   rating: string;
   lang: string;
+  webpOverGif: boolean;
 }
 
 export interface GiphySearchResponse {

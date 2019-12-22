@@ -1,4 +1,4 @@
-import { GifMetadata } from "../../api/GifSearchAPI";
+import { GifMetadata } from "../../types/GifSearchAPI";
 
 export interface GifsStore {
   gifs: Array<GifMetadata>;

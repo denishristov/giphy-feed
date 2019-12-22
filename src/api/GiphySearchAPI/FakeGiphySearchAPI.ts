@@ -1,4 +1,4 @@
-import { ImageMetadata, GifSearchAPIResponse } from "../GifSearchAPI";
+import { ImageMetadata, GifSearchAPIResponse } from "../../types/GifSearchAPI";
 
 export function FakeSearchGiphyAPI(
   searchTerm: string,
@@ -25,14 +25,17 @@ export function FakeSearchGiphyAPISync(
           still: FakeImage("small", searchTerm, i + offset)
         }
       })),
-    total: 1_000_000
+    total: 100
   };
 }
 
-function FakeImage(key: string, searchTerm: string, index: number): ImageMetadata {
+function FakeImage(
+  key: string,
+  searchTerm: string,
+  index: number
+): ImageMetadata {
   return {
     url: FakeURL(key, searchTerm, index),
-    size: 3400,
     height: 200,
     width: 200
   };
@@ -44,5 +47,5 @@ function FakeURL(
   index: number,
   suffix: string = "gif"
 ): string {
-  return `https://www.fake.com/${key}-${searchTerm}-${index}.${suffix}`;
+  return `https://www.giphy-fake-api.com/${key}-${searchTerm}-${index}.${suffix}`;
 }

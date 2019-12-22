@@ -1,20 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import { GifCard, GifCardData } from "../GifCard/GifCard";
 import { VariableSizeGrid, GridOnItemsRenderedProps } from "react-window";
-import { GifMetadata } from "../../api/GifSearchAPI";
+import { FeedProps } from "../../types/FeedProps";
 
-export interface GridFeedProps {
-  feedKey: string;
-  width: number;
-  height: number;
-  itemTop: number;
-  itemMargin: number;
-  itemSize: number;
+interface GridFeedProps extends FeedProps {
   maxItemsPerRow: number;
-  approachFeedEndDelta: number;
   placeholdersCount: number;
-  gifs: Array<GifMetadata>;
-  onApproachingFeedEnd(): void;
 }
 
 export const GridFeed: React.FC<GridFeedProps> = ({
@@ -22,7 +13,7 @@ export const GridFeed: React.FC<GridFeedProps> = ({
   height,
   width,
   itemTop,
-  itemSize,
+  itemWidth,
   itemMargin,
   maxItemsPerRow,
   placeholdersCount,
@@ -31,8 +22,11 @@ export const GridFeed: React.FC<GridFeedProps> = ({
   onApproachingFeedEnd
 }) => {
   const listRef = useRef<VariableSizeGrid | null>(null);
+
+  /* Since grid feed's items are squares their height = their width. */
+  const itemSize = itemWidth;
   const itemsPerRow = Math.min(
-    Math.floor(window.innerWidth / getColumnWidth()),
+    Math.floor(window.innerWidth / getRowAndColumnSize()),
     maxItemsPerRow
   );
 
@@ -59,15 +53,15 @@ export const GridFeed: React.FC<GridFeedProps> = ({
       columnCount={itemsPerRow}
       rowCount={Math.ceil(gifs.length / itemsPerRow) + placeholdersCount}
       estimatedRowHeight={itemSize + itemMargin}
-      rowHeight={getRowHeight}
-      columnWidth={getColumnWidth}
+      rowHeight={getRowAndColumnSize}
+      columnWidth={getRowAndColumnSize}
       useIsScrolling={true}
       onItemsRendered={handleItemsRendered}
     >
       {({ columnIndex, rowIndex, style, ...props }) => {
         const index = rowIndex * itemsPerRow + columnIndex;
         const horizontallyCenteredLeftOffset =
-          (width - itemsPerRow * getColumnWidth() + itemMargin) / 2;
+          (width - itemsPerRow * getRowAndColumnSize() + itemMargin) / 2;
 
         const horizontallyCenteredStyle = {
           ...style,
@@ -82,11 +76,7 @@ export const GridFeed: React.FC<GridFeedProps> = ({
     </VariableSizeGrid>
   );
 
-  function getRowHeight(): number {
-    return itemSize + itemMargin;
-  }
-
-  function getColumnWidth(): number {
+  function getRowAndColumnSize(): number {
     return itemSize + itemMargin;
   }
 

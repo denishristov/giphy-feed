@@ -13,7 +13,6 @@ export interface ImageMetadata {
   url: string;
   height: number;
   width: number;
-  size: number;
 }
 
 export interface GifMetadata {
