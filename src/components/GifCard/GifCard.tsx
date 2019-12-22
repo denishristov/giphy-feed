@@ -1,4 +1,4 @@
-import React, { memo, useState } from "react";
+import React, { memo, useState, useEffect } from "react";
 import { areEqual, ListChildComponentProps } from "react-window";
 import { GifMetadata } from "../../types/GifSearchAPI";
 import { GifCardPlaceholder } from "./GifCardPlaceholder/GifCardPlaceholder";
@@ -30,9 +30,17 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
   const gifMetadata = gifs[index];
 
   const [hasLoadedOriginal, setHasLoadedOriginal] = useState(false);
+
+  /* We only care about scrolling if we have the metadata to render. */
   const [hasStoppedScrolling, setHasStoppedScrolling] = useState(
     !!gifMetadata && !isScrolling
   );
+
+  useEffect(() => {
+    if (gifMetadata !== undefined && !isScrolling && !hasStoppedScrolling) {
+      setHasStoppedScrolling(true);
+    }
+  }, [gifMetadata, hasStoppedScrolling, isScrolling]);
 
   if (gifMetadata === undefined) {
     return (
@@ -42,11 +50,6 @@ export const GifCard: React.FC<GifCardProps> = memo((props: GifCardProps) => {
         gifCardStyle={gifCardStyle}
       />
     );
-  }
-
-  /* We only care about scrolling if we have the metadata to render. */
-  if (!isScrolling && !hasStoppedScrolling) {
-    setHasStoppedScrolling(true);
   }
 
   const {

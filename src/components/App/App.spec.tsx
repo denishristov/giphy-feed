@@ -16,7 +16,7 @@ describe(App, () => {
     expect(wrapper).toContainMatchingElement(Header.name);
   });
 
-  it("renders feed", () => {
+  it("renders grid feed if window width is above list view threshold", () => {
     expect(wrapper).toContainMatchingElement(ListFeed.name);
   });
 });

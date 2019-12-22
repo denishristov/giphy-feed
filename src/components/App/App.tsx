@@ -23,10 +23,15 @@ interface AppProps {
 
 export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
   const { width, height } = useWindowSize();
-  const [searchTerm, setSearchTerm] = useState(INITIAL_SEARCH_TERM);
-  const gifsStore = useGifsStore(gifSearchApi, PAGINATION_OFFSET);
 
   const itemWidth = Math.min(GIF_MAX_WIDTH, width - 2 * GIF_MARGIN);
+  const isAbleToDisplayMoreThanOneColumn = width >= LIST_VIEW_THRESHOLD;
+
+  const gifsStore = useGifsStore(gifSearchApi, PAGINATION_OFFSET);
+  const [searchTerm, setSearchTerm] = useState(INITIAL_SEARCH_TERM);
+  const [isUsingGridFeed, setIsUsingGridFeed] = useState(
+    isAbleToDisplayMoreThanOneColumn
+  );
 
   const feedProps: FeedProps = {
     feedKey: searchTerm,
@@ -47,15 +52,21 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
 
   return (
     <div className="app">
-      <Header height={HEADER_HEIGHT} onSearchChange={handleSearch} />
-      {width < LIST_VIEW_THRESHOLD ? (
-        <ListFeed {...feedProps} />
-      ) : (
+      <Header
+        height={HEADER_HEIGHT}
+        isAbleToDisplayGridFeed={isAbleToDisplayMoreThanOneColumn}
+        isUsingGridFeed={isUsingGridFeed}
+        onChangeFeed={setIsUsingGridFeed}
+        onSearchTermChange={handleSearch}
+      />
+      {isUsingGridFeed && isAbleToDisplayMoreThanOneColumn ? (
         <GridFeed
           placeholdersCount={PAGINATION_OFFSET}
           maxItemsPerRow={MAX_ITEMS_PER_ROW}
           {...feedProps}
         />
+      ) : (
+        <ListFeed {...feedProps} />
       )}
     </div>
   );
