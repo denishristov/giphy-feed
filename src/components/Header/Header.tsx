@@ -1,36 +1,34 @@
 import React from "react";
 import { debounce } from "debounce";
 import "./Header.scss";
-// import "./Toggle.scss";
+import { SEARCH_DEBOUNCE_WAIT } from "../../config/ui";
 
 interface Props {
   height: number;
   isUsingGridFeed: boolean;
   isAbleToDisplayGridFeed: boolean;
-  onChangeFeed(value: boolean): void;
+  onChangeUsingGridFeed(value: boolean): void;
   onSearchTermChange(value: string): void;
 }
-
-const DEBOUNCE_WAIT: number = 300;
 
 export const Header: React.FC<Props> = ({
   height,
   isUsingGridFeed,
   isAbleToDisplayGridFeed,
-  onChangeFeed,
-  onSearchTermChange: onSearchChange
+  onChangeUsingGridFeed,
+  onSearchTermChange
 }) => {
-  const debouncedSearchChangeHandler = debounce(onSearchChange, DEBOUNCE_WAIT);
+  const debouncedSearchChangeHandler = debounce(
+    onSearchTermChange,
+    SEARCH_DEBOUNCE_WAIT
+  );
 
-  function handleChangeSearchTerm(
-    event: React.ChangeEvent<HTMLInputElement>
-  ): void {
-    debouncedSearchChangeHandler(event.target.value);
-  }
-
-  function handleChangeFeed(event: React.ChangeEvent<HTMLInputElement>): void {
-    onChangeFeed(event.target.checked);
-  }
+  const toggleWrapperClassName = [
+    "toggle-wrapper",
+    !isAbleToDisplayGridFeed && "hidden"
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <header className="feed-header" style={{ height }}>
@@ -39,11 +37,7 @@ export const Header: React.FC<Props> = ({
         placeholder="Search gifs"
         onChange={handleChangeSearchTerm}
       />
-      <div
-        className={["toggle-wrapper", !isAbleToDisplayGridFeed && "hidden"]
-          .filter(Boolean)
-          .join(" ")}
-      >
+      <div className={toggleWrapperClassName}>
         <label>Grid</label>
         <input
           type="checkbox"
@@ -53,4 +47,14 @@ export const Header: React.FC<Props> = ({
       </div>
     </header>
   );
+
+  function handleChangeSearchTerm(
+    event: React.ChangeEvent<HTMLInputElement>
+  ): void {
+    debouncedSearchChangeHandler(event.target.value);
+  }
+
+  function handleChangeFeed(event: React.ChangeEvent<HTMLInputElement>): void {
+    onChangeUsingGridFeed(event.target.checked);
+  }
 };

@@ -15,7 +15,7 @@ import {
   MAX_ITEMS_PER_ROW,
   INITIAL_SEARCH_TERM,
   LIST_VIEW_THRESHOLD
-} from "./UIConfig";
+} from "../../config/ui";
 
 interface AppProps {
   gifSearchApi: GifSearchAPI;
@@ -56,7 +56,7 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
         height={HEADER_HEIGHT}
         isAbleToDisplayGridFeed={isAbleToDisplayMoreThanOneColumn}
         isUsingGridFeed={isUsingGridFeed}
-        onChangeFeed={setIsUsingGridFeed}
+        onChangeUsingGridFeed={setIsUsingGridFeed}
         onSearchTermChange={handleSearch}
       />
       {isUsingGridFeed && isAbleToDisplayMoreThanOneColumn ? (
