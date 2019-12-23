@@ -78,8 +78,17 @@ React is the perfect framework for such a small project because:
 - I have the most experience with it
 - supports hooks which are great for 2 things: reducing boilerplate and composing/reusing state modules
 
-### What I would do if this was a real production app
-- use masonry for the grid view because it looks fancier and deserves the engineering overhead
+### Cutting off gifs in Grid view
+Looking at this requirement I saw 3 potential solutions:
+- current one with cut off gifs so they fill up the square
+- fitting gifs in squares
+- using a masonry
+
+If I were to realize the masonry solution I would have used `react-virtualized`, but I decided to go with the first approach because I would have increased the bundle size with at least 35 KB (zipped) and introduced even more complexity into the solution.
+
+## What I would do if this was a real production app
+- extract CSS constants in a separate file
+- use masonry for the grid view because it looks fancier and deserves the engineering overhead IMO
 - add metrics to measure API latency, popular searches and user interactions with gifs
 - use GIPHY autocomplete and trending API's to provide a better search experience
-- have a designer design a better UI :D
+- have a designer design a better UI
