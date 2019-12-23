@@ -15,8 +15,8 @@ REACT_APP_GIPHY_API_KEY=<your_api_key>
 ## How to test 
 1. Run `yarn test .`
 
-### Code coverage:
-<img width="811" alt="Screenshot 2019-12-23 at 2 26 53" src="https://user-images.githubusercontent.com/22468578/71329420-aaf28d00-252d-11ea-8930-a74bbd4f3dc8.png">
+### Code coverage: 88%
+<img width="809" alt="Screenshot 2019-12-23 at 16 11 04" src="https://user-images.githubusercontent.com/22468578/71362544-1163c380-259f-11ea-9623-d74dc91a505b.png">
 
 ## Challenges and what I focused on solving (in no order)
 
@@ -63,7 +63,6 @@ Here are some netwrok inspections with 8 images as evidence.
 
 #### 8 webps - 7.8 MB
 <img width="890" alt="Screenshot 2019-12-23 at 14 05 38" src="https://user-images.githubusercontent.com/22468578/71358602-300f8d80-2592-11ea-9e0e-e7522531bdc3.png">
-
 
 #### 8 mp4s - 3.5 MB
 <img width="886" alt="Screenshot 2019-12-23 at 14 00 54" src="https://user-images.githubusercontent.com/22468578/71358600-300f8d80-2592-11ea-91ad-dc89398f8200.png">
