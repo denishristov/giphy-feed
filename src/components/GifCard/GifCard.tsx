@@ -1,4 +1,4 @@
-import React, { memo, useState, useEffect } from "react";
+import React, { memo, useState } from "react";
 import { areEqual, ListChildComponentProps } from "react-window";
 import { GifMetadata } from "../../types/GifSearchAPI";
 import { GifCardPlaceholder } from "./GifCardPlaceholder/GifCardPlaceholder";
@@ -9,22 +9,9 @@ interface GifCardProps extends ListChildComponentProps {
 }
 
 export const GifCard: React.FC<GifCardProps> = memo(
-  ({ data, style, index, isScrolling }: GifCardProps) => {
+  ({ data, style, index }: GifCardProps) => {
+    const [hasLoadedStill, setHasLoadedStill] = useState(false);
     const gifMetadata: GifMetadata | undefined = data[index];
-
-    const [hasLoadedOriginal, setHasLoadedOriginal] = useState(false);
-
-    /* We only care about scrolling if we have the metadata to render. */
-    const [hasStoppedScrolling, setHasStoppedScrolling] = useState(
-      !!gifMetadata && !isScrolling
-    );
-
-    useEffect(() => {
-      if (gifMetadata !== undefined && !isScrolling && !hasStoppedScrolling) {
-        setHasStoppedScrolling(true);
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [gifMetadata, isScrolling]);
 
     if (gifMetadata === undefined) {
       return <GifCardPlaceholder index={index} style={style} />;
@@ -38,19 +25,26 @@ export const GifCard: React.FC<GifCardProps> = memo(
 
     return (
       <GifCardPlaceholder index={index} style={style}>
-        <img
-          className="gif"
-          alt={title}
-          width={style.width}
-          height={style.height}
-          src={hasLoadedOriginal ? original.url : still.url}
-        />
-        {hasStoppedScrolling && !hasLoadedOriginal && (
+        {hasLoadedStill ? (
+          <video
+            className="gif"
+            autoPlay
+            loop
+            muted
+            playsInline
+            width={style.width}
+            height={style.height}
+            poster={still.url}
+          >
+            <source src={original.url} type="video/mp4" />
+          </video>
+        ) : (
           <img
-            className="background-fetcher"
             alt={title}
-            src={original.url}
-            onLoad={handleLoadedOriginal}
+            width={style.width}
+            height={style.height}
+            src={still.url}
+            onLoad={handleLoadedStill}
           />
         )}
         {title && (
@@ -61,8 +55,8 @@ export const GifCard: React.FC<GifCardProps> = memo(
       </GifCardPlaceholder>
     );
 
-    function handleLoadedOriginal(): void {
-      setHasLoadedOriginal(true);
+    function handleLoadedStill(): void {
+      setHasLoadedStill(true);
     }
   },
   areEqual

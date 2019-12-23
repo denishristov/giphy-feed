@@ -2,7 +2,6 @@ export interface GiphySearchAPIConfig {
   apiKey: string;
   rating: string;
   lang: string;
-  webpOverGif: boolean;
 }
 
 export interface GiphySearchResponse {
@@ -22,7 +21,7 @@ interface Gif {
   title: string;
   url: string;
   images: {
-    original: Image & { webp: string };
+    original: Image & { webp: string, mp4: string };
     fixed_width_small_still: Image;
   };
 }

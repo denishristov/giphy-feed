@@ -48,7 +48,6 @@ export const GridFeed: React.FC<GridFeedProps> = ({
       rowCount={Math.ceil(gifs.length / itemsPerRow) + placeholdersCount}
       rowHeight={itemSize + itemMargin}
       columnWidth={itemSize + itemMargin}
-      useIsScrolling={true}
       onItemsRendered={handleItemsRendered}
     >
       {({ columnIndex, rowIndex, style, ...props }) => {

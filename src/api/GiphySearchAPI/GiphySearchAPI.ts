@@ -4,10 +4,9 @@ import { GiphySearchResponse, GiphySearchAPIConfig } from "./interfaces";
 
 const GIPHY_SEARCH_ENDPOINT: string = "https://api.giphy.com/v1/gifs/search";
 
-export function createGiphySearchAPI({
-  webpOverGif,
-  ...config
-}: GiphySearchAPIConfig): GifSearchAPI {
+export function createGiphySearchAPI(
+  config: GiphySearchAPIConfig
+): GifSearchAPI {
   return async (
     searchTerm: string,
     offset: number,
@@ -40,9 +39,7 @@ export function createGiphySearchAPI({
         url: gif.url,
         images: {
           original: {
-            url: webpOverGif
-              ? gif.images.original.webp
-              : gif.images.original.url,
+            url: gif.images.original.mp4,
             height: Number(gif.images.original.height),
             width: Number(gif.images.original.width)
           },

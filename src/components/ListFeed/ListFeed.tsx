@@ -28,7 +28,6 @@ export const ListFeed: React.FC<FeedProps> = ({
       width={width}
       itemCount={gifs.length}
       itemSize={calculateItemHeight}
-      useIsScrolling={true}
       onItemsRendered={handleItemsRendered}
     >
       {({ style, ...props }) => {
