@@ -57,7 +57,8 @@ After experimenting with all 3 I found out that:
 1. webps were generally smaller in size compared to gifs (up to 4.2 times)
 2. mp4 were generally smaller in size compared to webps (up to 2.2 times)
 
-Here are some netwrok inspections with 8 images as evidence.
+Here are some netwrok inspections with 8 images:
+
 #### 8 gifs - 31.8 MB
 <img width="890" alt="Screenshot 2019-12-23 at 14 04 29" src="https://user-images.githubusercontent.com/22468578/71358599-300f8d80-2592-11ea-90bf-63895ff2329e.png">
 
@@ -67,7 +68,7 @@ Here are some netwrok inspections with 8 images as evidence.
 #### 8 mp4s - 3.5 MB
 <img width="886" alt="Screenshot 2019-12-23 at 14 00 54" src="https://user-images.githubusercontent.com/22468578/71358600-300f8d80-2592-11ea-91ad-dc89398f8200.png">
 
-Overall I'm happy with sticking with mp4.
+The downside of using mp4 is iPhones in "Low Power Mode" do not autoplay videos, but I decided to live with that.
 
 ### React
 React is the perfect framework for such a small project because:
