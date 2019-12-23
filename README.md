@@ -1,45 +1,42 @@
-![](https://github.com/denishristov/giphy-feed/workflows/.github/workflows/ci.yml/badge.svg)
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# GIPHY Infinite Search Feed
 
-## Available Scripts
+## How to run
+1. Create a `.env` file with content in the root of the project:
+```
+REACT_APP_GIPHY_API_KEY=<your_api_key>
+```
+2. Run `yarn`
+3. Run `yarn start`
 
-In the project directory, you can run:
+## How to test 
+1. Run `yarn test .`
 
-### `yarn start`
+### Code coverage:
+<img width="811" alt="Screenshot 2019-12-23 at 2 26 53" src="https://user-images.githubusercontent.com/22468578/71329420-aaf28d00-252d-11ea-8930-a74bbd4f3dc8.png">
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Challenges and what I focused on solving (in no order)
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+### Code quality, maintainability, and testability
+Although having a robust code structure for such a small project might be considered "overengineering" I decided to include TypeScript as the language of choice. I believe no scalable web app is maintainable without TS and the received benefits, especially in the long term, are definitely worth investing in. I have also spent a little more time decoupling my modules so they are easier to read, maintain and test.
 
-### `yarn test`
+### Performance
+Having a performant app is virtually always a real requirement. The biggest bottleneck in this project was the size of the images themselves as they can reach up to several MBs. The webp format definitely helps reduce the overhead but I did several things that I believe trick the user into thinking that the app works "faster":
+1. Fetching the smallest with the lowest quality image first: rendering a low-quality placeholder provides the ability to preview the image when waiting for the big blobs to be fetched.
+2. Fetching the original gif in the background: taking advantage of making concurrent requests for images. The exception here is that this is not done for images that have been rendered during scrolling (scrolling has to stop for both requests to be made). This is intentional (and greedy in a way) because this reduces the number of requests made if the user scrolls uncontrollably. It generally improves performance but could also be seen as a downside because it tracks scrolling and is optimistic that the user would stop scrolling.
+3. Windowing: here it is primarily used to render only what needs to visible which furthermore decreases the number of requests made. It does improve performance if the feed gets too big but I would not say that this is that big of an issue for this project. It also brings a big downside - all layout is computed with JS which is a generally worse alternative and introduces complications.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+I have also tried to keep the bundle size to a minimum by not introducing too many and too big dependencies.
 
-### `yarn build`
+Here are some benchmarks to back up all of this theory:
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### Lighthouse Audit:
+<img width="400" alt="Screenshot 2019-12-23 at 1 50 55" src="https://user-images.githubusercontent.com/22468578/71329848-ed1dcd80-2531-11ea-95e8-967619873996.png">
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+#### Chrome performance profile:
+<img width="995" alt="Screenshot 2019-12-23 at 3 17 25" src="https://user-images.githubusercontent.com/22468578/71329961-c90ebc00-2532-11ea-97bd-ca7a4c5a5cd4.png">
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### Average FPS: 50-60.
 
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### Responsiveness
+  
+  
