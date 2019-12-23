@@ -1,7 +1,11 @@
 import React from "react";
 import { debounce } from "debounce";
 import "./Header.scss";
-import { SEARCH_DEBOUNCE_WAIT } from "../../config/ui";
+import {
+  SEARCH_DEBOUNCE_WAIT,
+  TOGGLE_LEFT_MARGIN,
+  TOGGLE_WIDTH
+} from "../../config/ui";
 
 interface Props {
   height: number;
@@ -23,28 +27,31 @@ export const Header: React.FC<Props> = ({
     SEARCH_DEBOUNCE_WAIT
   );
 
-  const toggleWrapperClassName = [
-    "toggle-wrapper",
-    !isAbleToDisplayGridFeed && "hidden"
-  ]
-    .filter(Boolean)
-    .join(" ");
+  const inputLeftMargin: number = isAbleToDisplayGridFeed
+    ? TOGGLE_WIDTH + TOGGLE_LEFT_MARGIN
+    : 0;
 
   return (
     <header className="feed-header" style={{ height }}>
       <input
         className="search"
         placeholder="Search gifs"
+        style={{ marginLeft: inputLeftMargin }}
         onChange={handleChangeSearchTerm}
       />
-      <div className={toggleWrapperClassName}>
-        <label>Grid</label>
-        <input
-          type="checkbox"
-          checked={isUsingGridFeed}
-          onChange={handleChangeFeed}
-        />
-      </div>
+      {isAbleToDisplayGridFeed && (
+        <div
+          className="toggle-wrapper"
+          style={{ marginLeft: TOGGLE_LEFT_MARGIN, width: TOGGLE_WIDTH }}
+        >
+          <label>Grid</label>
+          <input
+            type="checkbox"
+            checked={isUsingGridFeed}
+            onChange={handleChangeFeed}
+          />
+        </div>
+      )}
     </header>
   );
 
