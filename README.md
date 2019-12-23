@@ -75,10 +75,10 @@ React is the perfect framework for such a small project because:
 - comes with only basic functionality out of the box (compared to all the junk Angular comes with)
 - has (one of if not) the largest community behind it (as of today)
 - I have the most experience with it
-- supports hooks which they are great for 2 things: reducing boilerplate and composing/reusing state modules
+- supports hooks which are great for 2 things: reducing boilerplate and composing/reusing state modules
 
 ### What I would do if this was a real production app
-- use a masonry for the grid view because it looks fancier and deserves the engineering overhead
-- add metrics to measure api latency, popular searches and user interactions with gifs
-- use GIPHY autocomplete and trending API's to provide a better search expereience
+- use masonry for the grid view because it looks fancier and deserves the engineering overhead
+- add metrics to measure API latency, popular searches and user interactions with gifs
+- use GIPHY autocomplete and trending API's to provide a better search experience
 - have a designer design a better UI :D
