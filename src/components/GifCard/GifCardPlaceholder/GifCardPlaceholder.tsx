@@ -12,10 +12,8 @@ export const GifCardPlaceholder: React.FC<GifPlaceholderProps> = ({
   style,
   children
 }) => (
-  <div className="gif-wrapper" style={style}>
-    <div className="gif-card">
-      <h1># {index + 1}</h1>
-      {children}
-    </div>
+  <div className="gif-card" style={style}>
+    <h1># {index + 1}</h1>
+    {children}
   </div>
 );

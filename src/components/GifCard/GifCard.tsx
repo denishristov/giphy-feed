@@ -40,6 +40,7 @@ export const GifCard: React.FC<GifCardProps> = memo(
           </video>
         ) : (
           <img
+            className="gif"
             alt={title}
             width={style.width}
             height={style.height}
