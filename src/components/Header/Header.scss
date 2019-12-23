@@ -33,7 +33,7 @@
 }
 
 @media only screen and (max-width: 440px) {
-  .feed-header input {
+  .feed-header .search {
     width: calc(100vw - 4 * 12px);
   }
 }
