@@ -72,7 +72,8 @@ Overall I'm happy with sticking with mp4.
 
 ### React
 React is the perfect framework for such a small project because:
-- comes with only basic functionality out of the box (compared to all the junk Angular comes with)
+- has amazing native TS support
+- comes with only basic functionality out of the box
 - has (one of if not) the largest community behind it (as of today)
 - I have the most experience with it
 - supports hooks which are great for 2 things: reducing boilerplate and composing/reusing state modules
