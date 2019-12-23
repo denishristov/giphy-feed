@@ -30,13 +30,20 @@ I have also tried to keep the bundle size to a minimum by not introducing too ma
 Here are some benchmarks to back up all of this theory:
 
 #### Lighthouse Audit:
-<img width="400" alt="Screenshot 2019-12-23 at 1 50 55" src="https://user-images.githubusercontent.com/22468578/71329848-ed1dcd80-2531-11ea-95e8-967619873996.png">
+<img width="400" alt="Screenshot 2019-12-23 at 1 52 04" src="https://user-images.githubusercontent.com/22468578/71330507-26f0d300-2536-11ea-8619-d14e66341603.png">
 
 #### Chrome performance profile:
-<img width="995" alt="Screenshot 2019-12-23 at 3 17 25" src="https://user-images.githubusercontent.com/22468578/71329961-c90ebc00-2532-11ea-97bd-ca7a4c5a5cd4.png">
+<img width="1528" alt="Screenshot 2019-12-23 at 3 41 01" src="https://user-images.githubusercontent.com/22468578/71330506-26f0d300-2536-11ea-88f3-e4268df0fac2.png">
 
-#### Average FPS: 50-60.
+#### Average FPS: 53-57.
 
 ### Responsiveness
-  
+The app has been made with both mobile and desktop devices in mind. Both the grid view and list view respect the viewport's width. The grid view dynamically collapses columns if is unable to display all of them.
+
+<img width="1792" alt="Screenshot 2019-12-23 at 3 48 32" src="https://user-images.githubusercontent.com/22468578/71330725-37ee1400-2537-11ea-8d40-518bf548556a.png">
+<img width="1182" alt="Screenshot 2019-12-23 at 3 48 36" src="https://user-images.githubusercontent.com/22468578/71330726-37ee1400-2537-11ea-9129-84aaf00929dd.png">
+<img width="238" alt="Screenshot 2019-12-23 at 3 49 08" src="https://user-images.githubusercontent.com/22468578/71330727-3886aa80-2537-11ea-8aa7-0005d682ba44.png">
+
+### Configureable
+All modules have been written with the mindset that every constant configuration is changeable.
   
