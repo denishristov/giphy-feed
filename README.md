@@ -1,5 +1,9 @@
 # GIPHY Infinite Search Feed
 
+![ezgif com-optimize](https://user-images.githubusercontent.com/22468578/71350932-20387f00-257b-11ea-8acd-201917bf6dd6.gif)
+
+Live at: https://giphy-feed.herokuapp.com/
+
 ## How to run
 1. Create a `.env` file with content in the root of the project:
 ```
@@ -27,7 +31,7 @@ Having a performant app is virtually always a real requirement. The biggest bott
 
 I have also tried to keep the bundle size to a minimum by not introducing too many and too big dependencies.
 
-Here are some benchmarks to back up all of this theory:
+Here are some benchmarks to back up some of this theory:
 
 #### Lighthouse Audit:
 <img width="400" alt="Screenshot 2019-12-23 at 1 52 04" src="https://user-images.githubusercontent.com/22468578/71330507-26f0d300-2536-11ea-8619-d14e66341603.png">
@@ -44,6 +48,27 @@ The app has been made with both mobile and desktop devices in mind. Both the gri
 <img width="1182" alt="Screenshot 2019-12-23 at 3 48 36" src="https://user-images.githubusercontent.com/22468578/71330726-37ee1400-2537-11ea-9129-84aaf00929dd.png">
 <img width="238" alt="Screenshot 2019-12-23 at 3 49 08" src="https://user-images.githubusercontent.com/22468578/71330727-3886aa80-2537-11ea-8aa7-0005d682ba44.png">
 
-### Configureable
+### Easy configuration
 All modules have been written with the mindset that every constant configuration is changeable.
-  
+
+## Explaining some decisions
+
+### Webp over gif and mp4 
+After experimenting with all 3 I found out that:
+1. webps were generally smaller in size compared to gifs (up to 4 times)
+2. webp is not supported in Safari
+3. mp4 had the best compression but are not autoplayed on Safari (and introduced some performance issues)
+
+Overall I'm happy with sticking with webp.
+
+### React and hooks
+React is the perfect framework for such a small project because:
+- comes with only basic functionality out of the box (compared to all the junk Angular comes with)
+- is very customizable
+- has the largest community behind it (as of today)
+- I have the most experience with it
+- supports hooks: they are great for 2 things: reducing boilerplate and composing/reusing state modules
+
+### What I would do if this was a real production app
+- use a masonry for the grid view because it looks fancier and deserves the engineering overhead
+- add metrics to measure api latency and popular searches
