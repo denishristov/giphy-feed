@@ -1,10 +1,12 @@
 import React from "react";
-import { shallow } from "enzyme";
+import { shallow, mount, ReactWrapper } from "enzyme";
 import { App } from "./App";
 import { FakeSearchGiphyAPI } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
 import { Header } from "../Header/Header";
 import { GridFeed } from "../GridFeed/GridFeed";
 import { ListFeed } from "../ListFeed/ListFeed";
+import { act } from "react-dom/test-utils";
+import { INITIAL_SEARCH_TERM } from "../../config/ui";
 
 describe(App, () => {
   const defaultWrapper = shallow(<App gifSearchApi={FakeSearchGiphyAPI} />);
@@ -17,6 +19,38 @@ describe(App, () => {
     expect(defaultWrapper).toContainMatchingElement(Header.name);
   });
 
+  it("calls API when Header calls onSearchTermChange", async () => {
+    const api = jest.fn(FakeSearchGiphyAPI);
+    const wrapper = mount(<App gifSearchApi={api} />);
+
+    act(() => {
+      wrapper
+        .find(Header)
+        .props()
+        .onSearchTermChange("kitty");
+    });
+
+    await waitUpdates(wrapper);
+
+    expect(api).toHaveBeenCalledWith("kitty", 0, 30);
+  });
+
+  it("calls API when Feed calls onApproachFeedEnd", async () => {
+    const api = jest.fn(FakeSearchGiphyAPI);
+    const wrapper = mount(<App gifSearchApi={api} />);
+
+    act(() => {
+      wrapper
+        .find(GridFeed)
+        .props()
+        .onApproachingFeedEnd();
+    });
+
+    await waitUpdates(wrapper);
+
+    expect(api).toHaveBeenCalledWith(INITIAL_SEARCH_TERM, 0, 30);
+  });
+
   it("renders grid feed if window width is above list view threshold", () => {
     expect(defaultWrapper).toContainMatchingElement(GridFeed.name);
   });
@@ -24,35 +58,38 @@ describe(App, () => {
   it("toggles between feeds when Header calls onChangeFeed", () => {
     expect(defaultWrapper).toContainMatchingElement(GridFeed.name);
 
-    defaultWrapper
-      .findWhere(x => x.name() === Header.name)
-      .getElement()
-      .props.onChangeUsingGridFeed(false);
+    const { onChangeUsingGridFeed } = defaultWrapper.find(Header).props();
+
+    onChangeUsingGridFeed(false);
 
     expect(defaultWrapper).toContainMatchingElement(ListFeed.name);
 
-    defaultWrapper
-      .findWhere(x => x.name() === Header.name)
-      .getElement()
-      .props.onChangeUsingGridFeed(true);
+    onChangeUsingGridFeed(true);
 
     expect(defaultWrapper).toContainMatchingElement(GridFeed.name);
   });
 
-  it("renders list feed if window width is above list view threshold", () => {
-    const oldWidth = window.innerWidth;
-    Object.defineProperty(window, "innerWidth", {
-      configurable: true,
-      value: 200
+  it("renders list feed if window's width is resized below list view threshold", async () => {
+    const wrapper = mount(<App gifSearchApi={FakeSearchGiphyAPI} />);
+
+    act(() => {
+      Object.defineProperty(window, "innerWidth", {
+        configurable: true,
+        value: 200
+      });
+
+      window.dispatchEvent(new Event("resize"));
     });
 
-    const wrapper = shallow(<App gifSearchApi={FakeSearchGiphyAPI} />);
+    await waitUpdates(wrapper);
 
     expect(wrapper).toContainMatchingElement(ListFeed.name);
-
-    Object.defineProperty(window, "innerWidth", {
-      configurable: true,
-      value: oldWidth
-    });
   });
 });
+
+async function waitUpdates<P = {}>(wrapper: ReactWrapper<P>) {
+  await act(async () => {
+    await new Promise(resolve => setTimeout(resolve, 0));
+    wrapper.update();
+  });
+}

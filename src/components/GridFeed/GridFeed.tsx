@@ -77,7 +77,10 @@ export const GridFeed: React.FC<GridFeedProps> = ({
     const overscanStopIndex =
       overscanRowStopIndex * itemsPerRow + overscanColumnStopIndex;
 
-    if (overscanStopIndex + approachFeedEndDelta >= gifs.length) {
+    if (
+      gifs.length !== 0 &&
+      overscanStopIndex + approachFeedEndDelta >= gifs.length
+    ) {
       onApproachingFeedEnd();
     }
   }

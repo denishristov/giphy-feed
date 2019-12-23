@@ -3,13 +3,16 @@ import { GridFeed } from "./GridFeed";
 import { FakeSearchGiphyAPISync } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
 import { mount } from "enzyme";
 import { GifCard } from "../GifCard/GifCard";
+import { FixedSizeGrid } from "react-window";
 
 describe(GridFeed, () => {
-  const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 20);
+  const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 30);
   const itemSize = 200;
   const itemMargin = 12;
   const itemTop = 82;
   const maxItemsPerRow = 3;
+  const approachFeedEndHandler = jest.fn();
+  const approachFeedEndDelta = 15;
 
   const component = (
     <GridFeed
@@ -20,10 +23,10 @@ describe(GridFeed, () => {
       itemWidth={itemSize}
       maxItemsPerRow={maxItemsPerRow}
       itemMargin={itemMargin}
-      approachFeedEndDelta={5}
+      approachFeedEndDelta={approachFeedEndDelta}
       placeholdersCount={30}
       gifs={gifs}
-      onApproachingFeedEnd={jest.fn()}
+      onApproachingFeedEnd={approachFeedEndHandler}
     />
   );
 
@@ -62,5 +65,21 @@ describe(GridFeed, () => {
         top: accumulatedTopOffset + itemTop
       });
     }
+  });
+
+  it('calls onApproachFeedEnd when there are "approachFeedEndDelta" amount of items to be scrolled', () => {
+    wrapper.find(FixedSizeGrid).props().onItemsRendered!({
+      overscanColumnStopIndex: 0,
+      overscanColumnStartIndex: 0,
+      overscanRowStartIndex: 0,
+      overscanRowStopIndex:
+        (gifs.length - approachFeedEndDelta) / maxItemsPerRow,
+      visibleColumnStartIndex: 0,
+      visibleColumnStopIndex: 0,
+      visibleRowStartIndex: 0,
+      visibleRowStopIndex: 0
+    });
+
+    expect(approachFeedEndHandler).toHaveBeenCalled();
   });
 });

@@ -3,13 +3,15 @@ import { ListFeed } from "./ListFeed";
 import { FakeSearchGiphyAPISync } from "../../api/GiphySearchAPI/FakeGiphySearchAPI";
 import { mount } from "enzyme";
 import { GifCard } from "../GifCard/GifCard";
+import { VariableSizeList } from "react-window";
 
 describe(ListFeed, () => {
-  const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 20);
+  const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 30);
   const itemWidth = 400;
   const itemMargin = 12;
   const itemTop = 82;
-  const handleApproachFeedEnd = jest.fn();
+  const approachFeedEndHandler = jest.fn();
+  const approachFeedEndDelta = 15;
 
   const component = (
     <ListFeed
@@ -19,9 +21,9 @@ describe(ListFeed, () => {
       itemTop={itemTop}
       itemMargin={itemMargin}
       itemWidth={itemWidth}
-      approachFeedEndDelta={5}
+      approachFeedEndDelta={approachFeedEndDelta}
       gifs={gifs}
-      onApproachingFeedEnd={handleApproachFeedEnd}
+      onApproachingFeedEnd={approachFeedEndHandler}
     />
   );
 
@@ -59,5 +61,16 @@ describe(ListFeed, () => {
 
       topOffsetAccumulator += itemMargin + scaledHeight;
     }
+  });
+
+  it('calls onApproachFeedEnd when there are "approachFeedEndDelta" amount of items to be scrolled', () => {
+    wrapper.find(VariableSizeList).props().onItemsRendered!({
+      overscanStartIndex: 0,
+      overscanStopIndex: gifs.length - approachFeedEndDelta,
+      visibleStartIndex: 0,
+      visibleStopIndex: 0
+    });
+
+    expect(approachFeedEndHandler).toHaveBeenCalled();
   });
 });
