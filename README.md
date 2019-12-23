@@ -24,10 +24,9 @@ REACT_APP_GIPHY_API_KEY=<your_api_key>
 Although having a robust code structure for such a small project might be considered "overengineering" I decided to include TypeScript as the language of choice. I believe no scalable web app is maintainable without TS and the received benefits, especially in the long term, are definitely worth investing in. I have also spent a little more time decoupling my modules so they are easier to read, maintain and test.
 
 ### Performance
-Having a performant app is virtually always a real requirement. The biggest bottleneck in this project was the size of the images themselves as they can reach up to several MBs. The webp format definitely helps reduce the overhead but I did several things that I believe trick the user into thinking that the app works "faster":
-1. Fetching the smallest with the lowest quality image first: rendering a low-quality placeholder provides the ability to preview the image when waiting for the big blobs to be fetched.
-2. Fetching the original gif in the background: taking advantage of making concurrent requests for images. The exception here is that this is not done for images that have been rendered during scrolling (scrolling has to stop for both requests to be made). This is intentional (and greedy in a way) because this reduces the number of requests made if the user scrolls uncontrollably. It generally improves performance but could also be seen as a downside because it tracks scrolling and is optimistic that the user would stop scrolling.
-3. Windowing: here it is primarily used to render only what needs to visible which furthermore decreases the number of requests made. It does improve performance if the feed gets too big but I would not say that this is that big of an issue for this project. It also brings a big downside - all layout is computed with JS which is a generally worse alternative and introduces complications.
+Having a performant app is virtually always a real requirement. The biggest bottleneck in this project was the size of the images themselves as they can reach up to several MBs. The mp4 format definitely helps reduce the overhead but I did several things that I believe trick the user into thinking that the app works "faster":
+1. Fetching the smallest with the lowest quality image first: rendering a low-quality placeholder provides the ability to preview the image instead of only waiting for the big blobs to be fetched.
+2. Windowing: here it is primarily used to render only what needs to visible which furthermore decreases the number of requests made. It does improve performance if the feed gets too big but I would not say that this is that big of an issue for this project. It also introduces a big downside - all layout is computed with JS which is a generally worse alternative and introduces complications.
 
 I have also tried to keep the bundle size to a minimum by not introducing too many and too big dependencies.
 
@@ -53,22 +52,33 @@ All modules have been written with the mindset that every constant configuration
 
 ## Explaining some decisions
 
-### Webp over gif and mp4 
+### mp4 over gif and webp 
 After experimenting with all 3 I found out that:
-1. webps were generally smaller in size compared to gifs (up to 4 times)
-2. webp is not supported in Safari
-3. mp4 had the best compression but are not autoplayed on Safari (and introduced some performance issues)
+1. webps were generally smaller in size compared to gifs (up to 4.2 times)
+2. mp4 were generally smaller in size compared to webps (up to 2.2 times)
 
-Overall I'm happy with sticking with webp.
+Here are some netwrok inspections with 8 images as evidence.
+#### 8 gifs - 31.8 MB
+<img width="890" alt="Screenshot 2019-12-23 at 14 04 29" src="https://user-images.githubusercontent.com/22468578/71358599-300f8d80-2592-11ea-90bf-63895ff2329e.png">
 
-### React and hooks
+#### 8 webps - 7.8 MB
+<img width="890" alt="Screenshot 2019-12-23 at 14 05 38" src="https://user-images.githubusercontent.com/22468578/71358602-300f8d80-2592-11ea-9e0e-e7522531bdc3.png">
+
+
+#### 8 mp4s - 3.5 MB
+<img width="886" alt="Screenshot 2019-12-23 at 14 00 54" src="https://user-images.githubusercontent.com/22468578/71358600-300f8d80-2592-11ea-91ad-dc89398f8200.png">
+
+Overall I'm happy with sticking with mp4.
+
+### React
 React is the perfect framework for such a small project because:
 - comes with only basic functionality out of the box (compared to all the junk Angular comes with)
-- is very customizable
-- has the largest community behind it (as of today)
+- has (one of if not) the largest community behind it (as of today)
 - I have the most experience with it
-- supports hooks: they are great for 2 things: reducing boilerplate and composing/reusing state modules
+- supports hooks which they are great for 2 things: reducing boilerplate and composing/reusing state modules
 
 ### What I would do if this was a real production app
 - use a masonry for the grid view because it looks fancier and deserves the engineering overhead
-- add metrics to measure api latency and popular searches
+- add metrics to measure api latency, popular searches and user interactions with gifs
+- use GIPHY autocomplete and trending API's to provide a better search expereience
+- have a designer design a better UI :D
