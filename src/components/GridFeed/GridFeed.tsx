@@ -25,7 +25,7 @@ export const GridFeed: React.FC<GridFeedProps> = ({
   /* Since grid feed's items are squares their height = their width. */
   const itemSize = itemWidth;
   const itemsPerRow = Math.min(
-    Math.floor((window.innerWidth - itemMargin) / (itemSize + itemMargin)),
+    Math.floor((width - itemMargin) / (itemSize + itemMargin)),
     maxItemsPerRow
   );
 

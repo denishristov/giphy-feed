@@ -4,6 +4,7 @@ import { FakeSearchGiphyAPISync } from "../../api/GiphySearchAPI/FakeGiphySearch
 import { mount } from "enzyme";
 import { GifCard } from "../GifCard/GifCard";
 import { FixedSizeGrid } from "react-window";
+import { GifCardPlaceholder } from "../GifCard/GifCardPlaceholder/GifCardPlaceholder";
 
 describe(GridFeed, () => {
   const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 30);
@@ -38,6 +39,12 @@ describe(GridFeed, () => {
 
   it("renders at least 3 gifs", () => {
     expect(wrapper.find(GifCard).length).toBeGreaterThanOrEqual(3);
+  });
+
+  it("renders placeholders", () => {
+    wrapper.setProps({ gifs: [] });
+    expect(wrapper.find(GifCardPlaceholder).length).toBeGreaterThanOrEqual(3);
+    wrapper.setProps({ gifs });
   });
 
   it("layouts items", () => {
@@ -81,5 +88,11 @@ describe(GridFeed, () => {
     });
 
     expect(approachFeedEndHandler).toHaveBeenCalled();
+  });
+
+  it("collapses into less items per row when unable to fit previous amount", () => {
+    wrapper.setProps({ width: 500 });
+
+    expect(wrapper.find(FixedSizeGrid).props().columnCount).toBe(2);
   });
 });

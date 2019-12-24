@@ -19,9 +19,9 @@ REACT_APP_GIPHY_API_KEY=<your_api_key>
 
 1. Run `yarn test .`
 
-### Code coverage: 88%
+### Code coverage: 89% (37 tests)
 
-<img width="809" alt="Screenshot 2019-12-23 at 16 11 04" src="https://user-images.githubusercontent.com/22468578/71362544-1163c380-259f-11ea-9623-d74dc91a505b.png">
+![image](https://user-images.githubusercontent.com/22468578/71415381-163e7b00-2664-11ea-96c1-04bf92de8082.png)
 
 ## Challenges and what I focused on solving (in no order)
 
@@ -109,7 +109,7 @@ If I were to realize the masonry solution I would have used `react-virtualized`,
 
 ## Future improvement
 
-- add more tests for exotic features like placeholders & respecting total count
+- add more tests for edge cases like respecting total count
 - extract CSS constants in a separate file
 - use masonry for the grid view because it looks fancier and deserves the engineering overhead IMO
 - add metrics to measure API latency, popular searches and user interactions with gifs

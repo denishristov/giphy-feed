@@ -14,7 +14,8 @@ import {
   HEADER_HEIGHT,
   MAX_ITEMS_PER_ROW,
   INITIAL_SEARCH_TERM,
-  LIST_VIEW_THRESHOLD
+  LIST_VIEW_THRESHOLD,
+  MAX_PLACEHOLDER_COUNT
 } from "../../config/ui";
 
 interface AppProps {
@@ -42,7 +43,7 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
     itemMargin: GIF_MARGIN,
     approachFeedEndDelta: PAGINATION_OFFSET / 2,
     placeholdersCount: Math.min(
-      PAGINATION_OFFSET * MAX_ITEMS_PER_ROW,
+      MAX_PLACEHOLDER_COUNT,
       gifsStore.total - gifsStore.gifs.length
     ),
     gifs: gifsStore.gifs,

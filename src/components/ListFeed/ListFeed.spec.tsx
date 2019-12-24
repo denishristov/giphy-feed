@@ -4,6 +4,7 @@ import { FakeSearchGiphyAPISync } from "../../api/GiphySearchAPI/FakeGiphySearch
 import { mount } from "enzyme";
 import { GifCard } from "../GifCard/GifCard";
 import { VariableSizeList } from "react-window";
+import { GifCardPlaceholder } from "../GifCard/GifCardPlaceholder/GifCardPlaceholder";
 
 describe(ListFeed, () => {
   const { gifs } = FakeSearchGiphyAPISync("kitty", 0, 30);
@@ -36,6 +37,12 @@ describe(ListFeed, () => {
 
   it("renders at least 1 gif", () => {
     expect(wrapper.find(GifCard).length).toBeGreaterThanOrEqual(1);
+  });
+
+  it("renders placeholders", () => {
+    wrapper.setProps({ gifs: [] });
+    expect(wrapper.find(GifCardPlaceholder).length).toBeGreaterThanOrEqual(3);
+    wrapper.setProps({ gifs });
   });
 
   it("layouts items", () => {

@@ -21,3 +21,5 @@ export const LIST_VIEW_THRESHOLD: number = 2 * GIF_MAX_WIDTH + 3 * GIF_MARGIN;
 export const TOGGLE_LEFT_MARGIN: number = 20;
 
 export const TOGGLE_WIDTH: number = 46;
+
+export const MAX_PLACEHOLDER_COUNT: number = 1000;
