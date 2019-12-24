@@ -5,7 +5,6 @@ import { FeedProps } from "../../types/FeedProps";
 
 interface GridFeedProps extends FeedProps {
   maxItemsPerRow: number;
-  placeholdersCount: number;
 }
 
 export const GridFeed: React.FC<GridFeedProps> = ({
@@ -45,7 +44,7 @@ export const GridFeed: React.FC<GridFeedProps> = ({
       width={width}
       height={height}
       columnCount={itemsPerRow}
-      rowCount={Math.ceil(gifs.length / itemsPerRow) + placeholdersCount}
+      rowCount={Math.ceil((gifs.length + placeholdersCount) / itemsPerRow)}
       rowHeight={itemSize + itemMargin}
       columnWidth={itemSize + itemMargin}
       onItemsRendered={handleItemsRendered}

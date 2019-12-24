@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { GifCard } from "../GifCard/GifCard";
 import { VariableSizeList, ListOnItemsRenderedProps } from "react-window";
 import { FeedProps } from "../../types/FeedProps";
+import { GifMetadata } from "../../types/GifSearchAPI";
 
 export const ListFeed: React.FC<FeedProps> = ({
   feedKey,
@@ -10,11 +11,19 @@ export const ListFeed: React.FC<FeedProps> = ({
   itemTop,
   itemWidth,
   itemMargin,
+  placeholdersCount,
   gifs,
   approachFeedEndDelta,
   onApproachingFeedEnd
 }) => {
   const listRef = useRef<VariableSizeList | null>(null);
+  const [placeholderStartIndex, setPlaceholderStartIndex] = useState(0);
+
+  useEffect(() => {
+    listRef.current?.resetAfterIndex(placeholderStartIndex, true);
+    setPlaceholderStartIndex(gifs.length);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gifs.length]);
 
   useEffect(() => {
     listRef.current?.resetAfterIndex(0, true);
@@ -26,7 +35,7 @@ export const ListFeed: React.FC<FeedProps> = ({
       itemData={gifs}
       height={height}
       width={width}
-      itemCount={gifs.length}
+      itemCount={gifs.length + placeholdersCount}
       itemSize={calculateItemHeight}
       onItemsRendered={handleItemsRendered}
     >
@@ -47,7 +56,12 @@ export const ListFeed: React.FC<FeedProps> = ({
   );
 
   function calculateItemHeight(index: number) {
-    const gif = gifs[index];
+    const gif: GifMetadata | undefined = gifs[index];
+
+    if (gif === undefined) {
+      return itemWidth;
+    }
+
     const { width, height } = gif.images.still;
 
     /* Scaled so the aspect ratio is left unchanged. */

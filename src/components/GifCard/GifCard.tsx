@@ -11,6 +11,8 @@ interface GifCardProps extends ListChildComponentProps {
 export const GifCard: React.FC<GifCardProps> = memo(
   ({ data, style, index }: GifCardProps) => {
     const [hasLoadedStill, setHasLoadedStill] = useState(false);
+    const [hasLoadedOriginal, setHasLoadedOriginal] = useState(false);
+
     const gifMetadata: GifMetadata | undefined = data[index];
 
     if (gifMetadata === undefined) {
@@ -25,20 +27,7 @@ export const GifCard: React.FC<GifCardProps> = memo(
 
     return (
       <GifCardPlaceholder index={index} style={style}>
-        {hasLoadedStill ? (
-          <video
-            className="gif"
-            autoPlay
-            loop
-            muted
-            playsInline
-            width={style.width}
-            height={style.height}
-            poster={still.url}
-          >
-            <source src={original.url} type="video/mp4" />
-          </video>
-        ) : (
+        {!hasLoadedOriginal && (
           <img
             className="gif"
             alt={title}
@@ -47,6 +36,24 @@ export const GifCard: React.FC<GifCardProps> = memo(
             src={still.url}
             onLoad={handleLoadedStill}
           />
+        )}
+        {hasLoadedStill && (
+          <video
+            className="gif"
+            autoPlay
+            loop
+            muted
+            playsInline
+            width={style.width}
+            height={style.height}
+            onLoadedData={handleLoadedOriginal}
+          >
+            <source
+              src={original.url}
+              type="video/mp4"
+              onLoad={handleLoadedOriginal}
+            />
+          </video>
         )}
         {title && (
           <div className="gif-link">
@@ -58,6 +65,10 @@ export const GifCard: React.FC<GifCardProps> = memo(
 
     function handleLoadedStill(): void {
       setHasLoadedStill(true);
+    }
+
+    function handleLoadedOriginal(): void {
+      setHasLoadedOriginal(true);
     }
   },
   areEqual

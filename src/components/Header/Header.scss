@@ -4,9 +4,10 @@
   align-items: center;
   width: 100vw;
   position: absolute;
-  background-color: #1f1f1ffa;
+  background-color: #1f1f1fdd;
   top: 0;
   z-index: 1;
+  backdrop-filter: blur(8px);
 
   .search {
     outline: none;
@@ -15,7 +16,7 @@
     width: 376px;
     padding: 0 12px;
     font-size: 1rem;
-    background-color: #2f2f2f;
+    background-color: #5f5f5faa;
     color: white;
   }
 

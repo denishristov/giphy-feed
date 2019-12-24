@@ -41,6 +41,10 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
     itemWidth,
     itemMargin: GIF_MARGIN,
     approachFeedEndDelta: PAGINATION_OFFSET / 2,
+    placeholdersCount: Math.min(
+      PAGINATION_OFFSET * MAX_ITEMS_PER_ROW,
+      gifsStore.total - gifsStore.gifs.length
+    ),
     gifs: gifsStore.gifs,
     onApproachingFeedEnd: handleApproachingFeedEnd
   };
@@ -60,11 +64,7 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
         onSearchTermChange={handleSearch}
       />
       {isUsingGridFeed && isAbleToDisplayMoreThanOneColumn ? (
-        <GridFeed
-          placeholdersCount={PAGINATION_OFFSET}
-          maxItemsPerRow={MAX_ITEMS_PER_ROW}
-          {...feedProps}
-        />
+        <GridFeed maxItemsPerRow={MAX_ITEMS_PER_ROW} {...feedProps} />
       ) : (
         <ListFeed {...feedProps} />
       )}

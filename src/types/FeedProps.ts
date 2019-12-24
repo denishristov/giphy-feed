@@ -8,6 +8,7 @@ export interface FeedProps {
   itemMargin: number;
   itemWidth: number;
   approachFeedEndDelta: number;
+  placeholdersCount: number;
   gifs: Array<GifMetadata>;
   onApproachingFeedEnd(): void;
 }

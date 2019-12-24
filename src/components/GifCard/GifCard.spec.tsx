@@ -38,13 +38,14 @@ describe(GifCard.name, () => {
     expect(wrapper.find("a").text()).toBe(gifs[0].title);
   });
 
-  it("renders video and removes img when still loads", () => {
+  it("renders video and removes img when original and still load", () => {
     const wrapper = mount(component);
 
     expect(wrapper.find("video")).not.toExist();
     expect(wrapper.find("img")).toExist();
 
     wrapper.find("img").simulate("load");
+    wrapper.find("video").simulate("loadeddata");
 
     expect(wrapper.find("video")).toExist();
     expect(wrapper.find("img")).not.toExist();

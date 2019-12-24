@@ -37,6 +37,7 @@ export function useGifsStore(
 
   return {
     gifs,
+    total,
     fetchNewBatch,
     fetchNextBatch
   };

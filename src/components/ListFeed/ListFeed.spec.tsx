@@ -21,6 +21,7 @@ describe(ListFeed, () => {
       itemTop={itemTop}
       itemMargin={itemMargin}
       itemWidth={itemWidth}
+      placeholdersCount={30}
       approachFeedEndDelta={approachFeedEndDelta}
       gifs={gifs}
       onApproachingFeedEnd={approachFeedEndHandler}

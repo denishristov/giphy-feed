@@ -1,6 +1,6 @@
 export const SEARCH_DEBOUNCE_WAIT: number = 300;
 
-export const PAGINATION_OFFSET: number = 30;
+export const PAGINATION_OFFSET: number = 60;
 
 export const GIF_MARGIN: number = 12;
 
