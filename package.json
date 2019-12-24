@@ -47,6 +47,13 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "coveragePathIgnorePatterns": [
+      "src/config",
+      "src/api",
+      "src/index.tsx"
+    ]
+  },
   "resolutions": {
     "serialize-javascript": "^2.1.1"
   }

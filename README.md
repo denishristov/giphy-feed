@@ -19,9 +19,12 @@ REACT_APP_GIPHY_API_KEY=<your_api_key>
 
 1. Run `yarn test .`
 
-### Code coverage: 89% (37 tests)
+### Stats
 
-![image](https://user-images.githubusercontent.com/22468578/71415381-163e7b00-2664-11ea-96c1-04bf92de8082.png)
+- 37 tests
+- 98% coverage (excluding `index.tsx`, `src/config`, `src/api`)
+
+<img width="1173" alt="Screenshot 2019-12-24 at 15 49 05" src="https://user-images.githubusercontent.com/22468578/71415571-01aeb280-2665-11ea-8327-8221f62a12f0.png">
 
 ## Challenges and what I focused on solving (in no order)
 
