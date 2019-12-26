@@ -4,17 +4,18 @@
   align-items: center;
   width: 100vw;
   position: absolute;
-  background-color: #1f1f1fdd;
   top: 0;
   z-index: 1;
+  background-color: #1f1f1fdd;
   backdrop-filter: blur(8px);
 
   .search {
-    outline: none;
-    border: none;
     height: 42px;
-    width: 376px;
+    min-width: 100px;
+    margin: 0 12px;
+    flex-grow: 1;
     padding: 0 12px;
+    border: none;
     font-size: 1rem;
     background-color: #5f5f5faa;
     color: white;
@@ -24,17 +25,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    right: 300px;
+    padding-left: 8px;
     color: #757575;
 
     input {
       margin: 0;
     }
-  }
-}
-
-@media only screen and (max-width: 440px) {
-  .feed-header .search {
-    width: calc(100vw - 4 * 12px);
   }
 }

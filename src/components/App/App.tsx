@@ -59,10 +59,10 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
     <div className="app">
       <Header
         height={HEADER_HEIGHT}
-        isAbleToDisplayGridFeed={isAbleToDisplayMoreThanOneColumn}
+        isAbleToSwitchToGridFeed={isAbleToDisplayMoreThanOneColumn}
         isUsingGridFeed={isUsingGridFeed}
         onChangeUsingGridFeed={setIsUsingGridFeed}
-        onSearchTermChange={handleSearch}
+        onSearchTermChange={handleSearchTermChange}
       />
       {isUsingGridFeed && isAbleToDisplayMoreThanOneColumn ? (
         <GridFeed maxItemsPerRow={MAX_ITEMS_PER_ROW} {...feedProps} />
@@ -72,7 +72,7 @@ export const App: React.FC<AppProps> = ({ gifSearchApi }) => {
     </div>
   );
 
-  function handleSearch(value: string): void {
+  function handleSearchTermChange(value: string): void {
     setSearchTerm(value);
     gifsStore.fetchNewBatch(value);
   }

@@ -11,11 +11,12 @@
 
   .gif-link {
     $height: 100px;
-    height: $height;
+
     display: flex;
     align-items: flex-end;
-    position: absolute;
+    height: $height;
     width: 100%;
+    position: absolute;
     bottom: 0px;
     left: 0px;
     background: linear-gradient(#1f1f1f00, #1f1f1f88);
@@ -25,11 +26,11 @@
     a {
       display: block;
       padding: 12px;
-      color: white;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
       font-size: inherit;
+      color: white;
       text-decoration: underline;
     }
   }

@@ -1,16 +1,16 @@
-import React from "react";
+import React, { CSSProperties } from "react";
 import { debounce } from "debounce";
 import "./Header.scss";
 import {
   SEARCH_DEBOUNCE_WAIT,
-  TOGGLE_LEFT_MARGIN,
-  TOGGLE_WIDTH
+  TOGGLE_WIDTH,
+  GIF_MAX_WIDTH
 } from "../../config/ui";
 
 interface Props {
   height: number;
   isUsingGridFeed: boolean;
-  isAbleToDisplayGridFeed: boolean;
+  isAbleToSwitchToGridFeed: boolean;
   onChangeUsingGridFeed(value: boolean): void;
   onSearchTermChange(value: string): void;
 }
@@ -18,7 +18,7 @@ interface Props {
 export const Header: React.FC<Props> = ({
   height,
   isUsingGridFeed,
-  isAbleToDisplayGridFeed,
+  isAbleToSwitchToGridFeed,
   onChangeUsingGridFeed,
   onSearchTermChange
 }) => {
@@ -27,23 +27,19 @@ export const Header: React.FC<Props> = ({
     SEARCH_DEBOUNCE_WAIT
   );
 
-  const inputLeftMargin: number = isAbleToDisplayGridFeed
-    ? TOGGLE_WIDTH + TOGGLE_LEFT_MARGIN
-    : 0;
+  const toggleWidthStyle: CSSProperties = { width: TOGGLE_WIDTH };
 
   return (
     <header className="feed-header" style={{ height }}>
+      {isAbleToSwitchToGridFeed && <div style={toggleWidthStyle} />}
       <input
         className="search"
         placeholder="Search gifs"
-        style={{ marginLeft: inputLeftMargin }}
+        style={{ maxWidth: GIF_MAX_WIDTH }}
         onChange={handleChangeSearchTerm}
       />
-      {isAbleToDisplayGridFeed && (
-        <div
-          className="toggle-wrapper"
-          style={{ marginLeft: TOGGLE_LEFT_MARGIN, width: TOGGLE_WIDTH }}
-        >
+      {isAbleToSwitchToGridFeed && (
+        <div className="toggle-wrapper" style={toggleWidthStyle}>
           <label>Grid</label>
           <input
             type="checkbox"

@@ -10,7 +10,7 @@ describe(Header, () => {
     <Header
       height={66}
       isUsingGridFeed={true}
-      isAbleToDisplayGridFeed={true}
+      isAbleToSwitchToGridFeed={true}
       onChangeUsingGridFeed={handleToggle}
       onSearchTermChange={handleSearch}
     />
