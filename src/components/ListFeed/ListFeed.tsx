@@ -20,14 +20,19 @@ export const ListFeed: React.FC<FeedProps> = ({
   const [placeholderStartIndex, setPlaceholderStartIndex] = useState(0);
 
   useEffect(() => {
-    listRef.current?.resetAfterIndex(placeholderStartIndex, true);
+    listRef.current?.resetAfterIndex(placeholderStartIndex, false);
     setPlaceholderStartIndex(gifs.length);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gifs.length]);
 
   useEffect(() => {
+    listRef.current?.resetAfterIndex(0, false);
+    listRef.current?.scrollToItem(0);
+  }, [feedKey]);
+
+  useEffect(() => {
     listRef.current?.resetAfterIndex(0, true);
-  }, [feedKey, itemWidth]);
+  }, [itemWidth]);
 
   return (
     <VariableSizeList
